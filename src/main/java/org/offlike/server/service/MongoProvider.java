@@ -7,12 +7,14 @@ import com.mongodb.DB;
 import com.mongodb.Mongo;
 
 public class MongoProvider {
-	private String hostname = getProperty("mongodb.hostname", "localhost");
-	private int port = Integer.parseInt(getProperty("mongodb.port", "27017"));
-	private String dbname = getProperty("mongodb.dbname", "offlike");
-	private String username = getProperty("mongodb.username");
-	private String password = getProperty("mongodb.password");
-	private String url;
+	
+	private String hostname = getProperty("mongodb.hostname", "MONGODB_HOSTNAME", "localhost");
+	private int port = Integer.parseInt(getProperty("mongodb.port", "MONGODB_PORT", "27017"));
+	private String dbname = getProperty("mongodb.dbname", "MONGODB_DBNAME", "offlike");
+	private String username = getProperty("mongodb.username", "MONGODB_USERNAME");
+	private String password = getProperty("mongodb.password", "MONGODB_PASSWORD");
+	private String url=getProperty("mongodb.url", "MONGOLAB_URI");;
+	
 	
 	public void setUrl(String url) {
 		this.url = url;
@@ -60,16 +62,19 @@ public class MongoProvider {
 	}
 	
 
-	private static String getProperty(String propname) {
-		return getProperty(propname, null);
+	private static String getProperty(String propname, String envname) {
+		return getProperty(propname, envname, null);
 	}
 	
-	private static String getProperty(String propname, String defaultValue) {
-		// self-implemented version of System.getProperty(name, default);
-		// because we want to treat empty strings as missing values.
+	private static String getProperty(String propname, String envname, String defaultValue) {
+		
 		final String v = System.getProperty(propname);
 		if (Strings.isNullOrEmpty(v)) {
-			return defaultValue;
+			final String envValue = System.getenv(envname);
+			if (Strings.isNullOrEmpty(envname)) {
+				return defaultValue;
+			}
+			return envValue;
 		}
 		return v;
 	}
