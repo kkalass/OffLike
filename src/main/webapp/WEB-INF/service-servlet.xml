@@ -48,6 +48,17 @@
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<bean class="org.offlike.server.service.MongoDbService" />
 
+	<bean id="bitlyManager" class="org.offlike.server.service.BitlyUrlService">
+		<constructor-arg>
+			<value>joecks</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>R_04d0bd3644180040b49b0fdc4398fe5c</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>http://offlike.heroku.com/</value>
+		</constructor-arg>
+	</bean>
 
 	<bean id="owaspPolicy" class="org.owasp.validator.html.Policy"
 		factory-method="getInstance">
