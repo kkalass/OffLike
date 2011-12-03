@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.offlike.server.data.Campaign;
@@ -14,6 +15,7 @@ import org.offlike.server.data.QrCode;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
@@ -119,5 +121,33 @@ public class MongoDbServiceTest {
 		assertEquals(new Double(12345.67), campaign.getLatitude());
 		assertEquals(new Double(98765.43), campaign.getLongitude());
 		assertEquals(new Integer(10), campaign.getAccuracy());
+	}
+	
+	@Test
+	public void testActivateQrCode() {
+		BasicDBObject qrCode = new BasicDBObject();
+		qrCode.put("imageData", "abcdefgh");
+		qrCode.put("campaignId", "123456");
+		
+		DBCollection qrCodes = database.getCollection("qrCodes");
+		qrCodes.insert(qrCode);
+		String qrCodeId = qrCode.getString("_id");
+		
+		mongoDbService.activateQrCode(qrCodeId, 12345.67, 98765.43, 10);
+		assertEquals(1, database.getCollection("qrCodes").find().count());
+
+		DBCollection allQrCodes = database.getCollection("qrCodes");
+		DBObject query = new BasicDBObject("_id", new ObjectId(qrCodeId));
+		DBObject updatedDbObject = allQrCodes.findOne(query);
+		assertEquals(new Double(12345.67), updatedDbObject.get("latitude"));
+		assertEquals(new Double(98765.43), updatedDbObject.get("longitude"));
+		assertEquals(new Integer(10), updatedDbObject.get("accuracy"));
+		
+		QrCode updatedQrCode = mongoDbService.findQrCodeById(qrCodeId);
+		assertEquals("abcdefgh", updatedQrCode.getImageData());
+		assertEquals("123456", updatedQrCode.getCampaignId());
+		assertEquals(new Double(12345.67), updatedQrCode.getLatitude());
+		assertEquals(new Double(98765.43), updatedQrCode.getLongitude());
+		assertEquals(new Integer(10), updatedQrCode.getAccuracy());
 	}
 }
