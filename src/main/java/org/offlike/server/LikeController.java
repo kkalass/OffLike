@@ -13,7 +13,7 @@ public class LikeController {
 	
 	@RequestMapping("/like/{posterId}")
 	public ModelAndView like(@RequestParam("campaign_name") String campaignName, @PathVariable("posterId") String posterId) {
-		return new ModelAndView("like",  ImmutableMap.<String, Object>of("campaignNAme", campaignName));
+		return new ModelAndView("like",  ImmutableMap.<String, Object>of("campaignName", campaignName));
 	}
 	
 }
