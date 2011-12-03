@@ -3,10 +3,11 @@ package org.offlike.server.data;
 public class QrCode {
 
 	private String id;
-	private int campaignId;
+	private String campaignId;
 	private String imageData;
 	private double latituede;
 	private double longitude;
+	private int accurency;
 
 	public String getId() {
 		return id;
@@ -40,12 +41,20 @@ public class QrCode {
 		this.imageData = qrCode;
 	}
 
-	public int getCampaignId() {
+	public String getCampaignId() {
 		return campaignId;
 	}
 
-	public void setCampaignId(int campaignId) {
+	public void setCampaignId(String campaignId) {
 		this.campaignId = campaignId;
+	}
+
+	public int getAccurency() {
+		return accurency;
+	}
+
+	public void setAccurency(int accurency) {
+		this.accurency = accurency;
 	}
 
 }

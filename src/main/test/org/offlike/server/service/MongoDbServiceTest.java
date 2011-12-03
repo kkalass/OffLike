@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.offlike.server.data.Campaign;
+import org.offlike.server.data.QrCode;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -65,5 +66,26 @@ public class MongoDbServiceTest {
 		Campaign campaign = mongoDbService.findCampaignById(camp.getString("_id"));
 		assertEquals("test-title", campaign.getTitle());
 	}
-	
+
+	@Test
+	public void testCreateQrCode() {
+		Campaign campaign = new Campaign();
+		campaign.setTitle("Save the whales");
+		campaign.setDescription("Let us save the whales");
+		campaign.setExternalLink("http://...");
+		mongoDbService.createCampaign(campaign);
+		
+		// no QrCodes for the campaign
+		List<QrCode> allQrCodes = mongoDbService.findQrCodesForCampaign(campaign.getId());
+		assertEquals(0, allQrCodes.size());
+		
+		QrCode qrCode = new QrCode();
+		qrCode.setImageData("abcdefgh");
+		mongoDbService.createQrCode(campaign, qrCode);
+
+		// one QrCodes for the campaign
+		allQrCodes = mongoDbService.findQrCodesForCampaign(campaign.getId());
+		assertEquals(1, allQrCodes.size());
+		
+	}
 }
