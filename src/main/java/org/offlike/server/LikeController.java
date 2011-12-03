@@ -11,10 +11,14 @@ import com.google.common.collect.ImmutableMap;
 
 @org.springframework.stereotype.Controller
 public class LikeController {
+
+	@Autowired
+	private MongoDbService _service;
 	
 	@RequestMapping("/like/{posterId}")
 	public ModelAndView like(@RequestParam("campaign_name") String campaignName, @PathVariable("posterId") String posterId) {
-		return new ModelAndView("like",  ImmutableMap.<String, Object>of("campaignName", campaignName));
+		int numCampaigns = _service.countCampaigns();
+		return new ModelAndView("like",  ImmutableMap.<String, Object>of("campaignName", campaignName + " " + numCampaigns));
 	}
 	
 }

@@ -20,8 +20,8 @@ public class MongoDbService {
 
 	public MongoDbService(DB database) {
 		this.database = database;
-	}
-
+        }
+	
 	public int countCampaigns() {
 		DBCollection allCampaigns = database.getCollection("campaigns");
 		DBCursor cursor = allCampaigns.find();
@@ -94,6 +94,5 @@ public class MongoDbService {
 			System.out.println(s);
 		}
 	}
-
 
 }
