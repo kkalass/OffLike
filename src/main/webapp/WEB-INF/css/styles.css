@@ -47,3 +47,35 @@
       .topbar .btn {
         border: 0;
       }
+
+.topbar h3 a, .topbar .brand {
+
+   color: #FFFFFF;
+   display: block;
+   float: left;
+   font-size: 20px;
+   font-weight: 200;
+   line-height: 1;
+   margin-left: -20px;
+   padding: 8px 20px 12px;
+}
+
+h2 {
+
+   font-size: 32px;
+   line-height: 36px;
+
+}
+
+p{
+margin-top: 38px;
+font-size: 16px;
+line-height: 20px;
+}
+
+.brand {
+   background: url(/img/logo.png) no-repeat 50% 50%;
+   height: 19px;
+   width: 90px;
+}
+      
