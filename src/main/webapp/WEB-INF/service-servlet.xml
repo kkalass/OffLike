@@ -13,6 +13,8 @@
 	<bean id="likeController" class="org.offlike.server.LikeController">
 	</bean>
 
+	<bean id="campaignController" class="org.offlike.server.CampaignController">
+	</bean>
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -21,8 +23,9 @@
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
 				<ref bean="jacksonMessageConverter" />
@@ -33,15 +36,24 @@
 	<bean id="jacksonMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 
-	<!-- bean id="jacksonMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" /-->
-  
-  <!--  TODO: Verschieben in offlike.xml, sobald es dort geht -->
-   <context:annotation-config />
-   <bean id="mongoProvider" class="org.offlike.server.service.MongoProvider"></bean>
-   <bean factory-bean="mongoProvider" factory-method="get"/>
-   <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
-   <bean class="org.offlike.server.service.MongoDbService"/>
+	<!-- bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" 
+		/ -->
 
+	<!-- TODO: Verschieben in offlike.xml, sobald es dort geht -->
+	<context:annotation-config />
+	<bean id="mongoProvider" class="org.offlike.server.service.MongoProvider">
+	</bean>
+	<bean factory-bean="mongoProvider" factory-method="get" />
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean class="org.offlike.server.service.MongoDbService" />
+
+
+	<bean id="owaspPolicy" class="org.owasp.validator.html.Policy"
+		factory-method="getInstance">
+		<constructor-arg>
+			<value>antisamy-slashdot-1.4.4.xml</value>
+		</constructor-arg>
+	</bean>
 
 </beans>
