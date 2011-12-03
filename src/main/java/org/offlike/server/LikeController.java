@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableMap;
 @org.springframework.stereotype.Controller
 public class LikeController {
 
+	//TODO count the number of requests, 
 	@Autowired
 	private MongoDbService _service;
 	

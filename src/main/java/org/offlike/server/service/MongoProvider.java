@@ -13,12 +13,6 @@ public class MongoProvider {
 	private String dbname = getProperty("mongodb.dbname", "MONGODB_DBNAME", "offlike");
 	private String username = getProperty("mongodb.username", "MONGODB_USERNAME");
 	private String password = getProperty("mongodb.password", "MONGODB_PASSWORD");
-	private String url=getProperty("mongodb.url", "MONGOLAB_URI");;
-	
-	
-	public void setUrl(String url) {
-		this.url = url;
-	}
 	
 	public void setDbname(String dbname) {
 		this.dbname = dbname;
@@ -43,11 +37,6 @@ public class MongoProvider {
 	public DB get() {
 		try {
 
-			
-			System.out.println("********************");
-			System.out.println("uri" + url);
-			System.out.println("db-url: mongodb://" + username + ":" + password + "@"+ hostname + ":" + port+"/"+dbname);
-			System.out.println("********************");
 			final Mongo m = new Mongo(hostname, port);
 			final DB db = m.getDB(dbname);
 			
@@ -71,7 +60,7 @@ public class MongoProvider {
 		final String v = System.getProperty(propname);
 		if (Strings.isNullOrEmpty(v)) {
 			final String envValue = System.getenv(envname);
-			if (Strings.isNullOrEmpty(envname)) {
+			if (Strings.isNullOrEmpty(envValue)) {
 				return defaultValue;
 			}
 			return envValue;
