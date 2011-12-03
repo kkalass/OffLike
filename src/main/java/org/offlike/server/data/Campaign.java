@@ -2,23 +2,27 @@ package org.offlike.server.data;
 
 public class Campaign {
 
-	private int id;
-	private String name;
+	private String id;
+	private String title;
 
 	public Campaign() {
-		this.id = 12; // get id from database
+		//this.id = 12; // get id from database
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String name) {
+		this.title = name;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 }
