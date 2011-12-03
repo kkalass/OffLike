@@ -31,5 +31,13 @@
     <property name="prefix"    value="/WEB-INF/views/" />
     <property name="suffix"    value=".jsp" />
   </bean>
+  
+  
+  <!--  TODO: Verschieben in offlike.xml, sobald es dort geht -->
+   <context:annotation-config />
+   <bean id="mongoProvider" class="org.offlike.server.service.MongoProvider"/>
+   <bean factory-bean="mongoProvider" factory-method="get"/>
+   <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+   <bean class="org.offlike.server.service.MongoDbService"/>
 
 </beans>

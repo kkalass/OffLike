@@ -1,6 +1,5 @@
 package org.offlike.server.service;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,31 +7,23 @@ import java.util.Set;
 import org.bson.types.ObjectId;
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.Poster;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
 
 public class MongoDbService {
 
 	private DB db;
-
-	public MongoDbService() {
-
-		try {
-			Mongo m = new Mongo("localhost", 27017);
-			// clear the database
-			db = m.getDB("offlike");
-			db.dropDatabase();
-			db = m.getDB("offlike");
-		} catch (UnknownHostException e) {
-			throw new RuntimeException(e);
-		}
+	
+	@Autowired
+	public MongoDbService(DB db) {
+		this.db = db;
 	}
-
+	
 	public int countCampaigns() {
 		DBCollection allCampaigns = db.getCollection("campaigns");
 		DBCursor cursor = allCampaigns.find();
@@ -82,6 +73,6 @@ public class MongoDbService {
 	}
 
 	public static void main(String[] args) {
-		new MongoDbService().createPoster(new Campaign());
+		//new MongoDbService().createPoster(new Campaign());
 	}
 }
