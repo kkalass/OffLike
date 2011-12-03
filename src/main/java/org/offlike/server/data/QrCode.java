@@ -5,9 +5,9 @@ public class QrCode {
 	private String id;
 	private String campaignId;
 	private String imageData;
-	private double latituede;
-	private double longitude;
-	private int accurency;
+	private Double latitude;
+	private Double longitude;
+	private Integer accuracy;
 
 	public String getId() {
 		return id;
@@ -17,19 +17,19 @@ public class QrCode {
 		this.id = id;
 	}
 
-	public double getLatituede() {
-		return latituede;
+	public Double getLatitude() {
+		return latitude;
 	}
 
-	public void setLatituede(double latituede) {
-		this.latituede = latituede;
+	public void setLatitude(Double latituede) {
+		this.latitude = latituede;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
@@ -49,12 +49,12 @@ public class QrCode {
 		this.campaignId = campaignId;
 	}
 
-	public int getAccurency() {
-		return accurency;
+	public Integer getAccuracy() {
+		return accuracy;
 	}
 
-	public void setAccurency(int accurency) {
-		this.accurency = accurency;
+	public void setAccuracy(Integer accurency) {
+		this.accuracy = accurency;
 	}
 
 }
