@@ -4,9 +4,9 @@
         <div class="container">
           <a class="brand" href="#">OffLike</a>
           <ul class="nav">
-            <li class="active" ><a href="/">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
-            <li><a href="/contact.html">Contact</a></li>
+            <li class="active"><a href="/contact.html">Contact</a></li>
           </ul>
          
         </div>

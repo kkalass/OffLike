@@ -13,6 +13,8 @@
 	    
 	<mvc:default-servlet-handler/>
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" /> 
+	<mvc:view-controller path="/about.html" view-name="about" />
+	<mvc:view-controller path="/contact.html" view-name="contact" />
 
 	<bean name="/campange" id="debugController" class="org.offlike.server.Controller">
 	</bean>
