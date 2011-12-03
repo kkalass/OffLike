@@ -53,8 +53,8 @@ public class QrCode {
 		return accuracy;
 	}
 
-	public void setAccuracy(Integer accurency) {
-		this.accuracy = accurency;
+	public void setAccuracy(Integer accuracy) {
+		this.accuracy = accuracy;
 	}
 
 }
