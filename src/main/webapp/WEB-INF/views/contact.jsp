@@ -12,7 +12,8 @@
         </div>
       </div>
     </div>
-
+    
+   <div class="container">
  	<div class="content">
         <div class="row">
           <div class="span10">
