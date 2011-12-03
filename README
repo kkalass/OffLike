@@ -1,3 +1,11 @@
+Lokale Einrichtung:
+---------
+- mongodb installieren
+- Datenverzeichnis erstellen: 
+  mkdir -p app/db
+- Datenbank starten:
+  mongod --dbpath app/db/
+
 
 Lokales Starten der Anwendung:
 --------
