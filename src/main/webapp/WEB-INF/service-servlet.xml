@@ -49,23 +49,21 @@
 	<bean class="org.offlike.server.service.MongoDbService" />
 
 	<bean id="bitlyManager" class="org.offlike.server.service.BitlyUrlService">
-		<constructor-arg>
-			<value>joecks</value>
-		</constructor-arg>
-		<constructor-arg>
-			<value>R_04d0bd3644180040b49b0fdc4398fe5c</value>
-		</constructor-arg>
-		<constructor-arg>
-			<value>http://offlike.heroku.com/</value>
-		</constructor-arg>
+		<constructor-arg value="joecks" />
+		<constructor-arg value="R_04d0bd3644180040b49b0fdc4398fe5c" />
+		<constructor-arg value="http://offlike.heroku.com/" />
 	</bean>
+
+	<bean id="antisamyFilePathFactory" class="org.springframework.core.io.ClassPathResource">
+		<constructor-arg value="/antisamy-slashdot-1.4.4.xml"></constructor-arg>
+	</bean>
+
+	<bean id="antisamyFilePath" factory-bean="antisamyFilePathFactory"
+		factory-method="getURL"></bean>
 
 	<bean id="owaspPolicy" class="org.owasp.validator.html.Policy"
 		factory-method="getInstance">
-		<constructor-arg>
-			<value>antisamy-slashdot-1.4.4.xml</value>
-		</constructor-arg>
+		<constructor-arg ref="antisamyFilePath"></constructor-arg>
 	</bean>
-
 
 </beans>

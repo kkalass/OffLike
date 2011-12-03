@@ -76,7 +76,8 @@
         <div class="container">
           <a class="brand" href="#">OffLike</a>
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Home</a></li>
+            <li class="active"><a href="#">Edit Campaign</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -88,9 +89,13 @@
     <div class="container">
 
       <div class="content">
+        <div class="page-header">
+          <h1>Oxfam - More Trees <small></small></h1>
+        </div>
         <div class="row">
           <div class="span10">
             <h2>Main content</h2>
+            <p>asdf 9iasdpfo adpsoif uapodsf poiasd f§9auds §f9uads9fu ads9ipuf a9u8 asd98ufaopidsj fopiadspof adsjf </p>
           </div>
           <div class="span4">
             <h3>Secondary content</h3>

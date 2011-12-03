@@ -83,7 +83,9 @@ public class CampaignController {
 
 	@RequestMapping("/campaign/{id}")
 	public ModelAndView getCampaign(@PathVariable String id) {
-
+		if (true)
+		return new ModelAndView("campaign");
+		
 		if (!isIdValid(id)) {
 			return errorPage("Id is not valid");
 		}
@@ -93,7 +95,7 @@ public class CampaignController {
 		if (camp==null){
 			return errorPage("No campaign with that id!");
 		}
-		return new ModelAndView("newCampaign", ImmutableMap.of("campaign",
+		return new ModelAndView("campaign", ImmutableMap.of("campaign",
 				camp));
 	}
 

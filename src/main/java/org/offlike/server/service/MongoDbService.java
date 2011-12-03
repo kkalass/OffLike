@@ -2,7 +2,6 @@ package org.offlike.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.bson.types.ObjectId;
 import org.offlike.server.data.Campaign;
@@ -23,8 +22,8 @@ public class MongoDbService {
 	@Autowired
 	public MongoDbService(DB database) {
 		this.database = database;
-        }
-	
+	}
+
 	public int countCampaigns() {
 		DBCollection allCampaigns = database.getCollection("campaigns");
 		DBCursor cursor = allCampaigns.find();
@@ -51,13 +50,17 @@ public class MongoDbService {
 		DBCollection dbQrCodes = database.getCollection("qrCodes");
 		dbQrCodes.insert(dbQrCode);
 
-		qrCode.setId(((ObjectId) dbQrCode.get("_id")).toString());		
+		qrCode.setId(((ObjectId) dbQrCode.get("_id")).toString());
 	}
-	
+
 	public QrCode findQrCodeById(String qrCodeId) {
-		return null;
+		DBCollection allQrCodes = database.getCollection("qrCodes");
+		DBObject query = new BasicDBObject("_id", new ObjectId(qrCodeId));
+
+		DBObject found = allQrCodes.findOne(query);
+		return createQrCodesFromDbObject(found);
 	}
-	
+
 	public List<Campaign> findAllCampaigns() {
 		ArrayList<Campaign> allCampaigns = new ArrayList<Campaign>();
 
@@ -65,7 +68,7 @@ public class MongoDbService {
 		DBCursor cursor = dbCampaigns.find();
 		while (cursor.hasNext()) {
 			DBObject dbObject = (DBObject) cursor.next();
-			Campaign campaign =createCampaignFromDbObject(dbObject);
+			Campaign campaign = createCampaignFromDbObject(dbObject);
 			allCampaigns.add(campaign);
 		}
 		return allCampaigns;
@@ -74,54 +77,55 @@ public class MongoDbService {
 	public Campaign findCampaignById(String campaignId) {
 		DBCollection allCampaigns = database.getCollection("campaigns");
 		DBObject query = new BasicDBObject("_id", new ObjectId(campaignId));
-		
+
 		DBObject found = allCampaigns.findOne(query);
 		return createCampaignFromDbObject(found);
+	}
+
+	public List<QrCode> findQrCodesForCampaign(String campaignId) {
+		ArrayList<QrCode> qrCodes = new ArrayList<QrCode>();
+
+		DBCollection allQrCodes = database.getCollection("qrCodes");
+		DBObject query = new BasicDBObject("campaignId", campaignId);
+		DBCursor found = allQrCodes.find(query);
+		while (found.hasNext()) {
+			DBObject dbObject = (DBObject) found.next();
+			qrCodes.add(createQrCodesFromDbObject(dbObject));
+		}
+		return qrCodes;
 	}
 
 	private Campaign createCampaignFromDbObject(DBObject found) {
 		Campaign campaign = new Campaign();
 		campaign.setId(found.get("_id").toString());
 		campaign.setTitle(found.get("title").toString());
-		String description = found.containsField("description") ? found.get("description").toString() : null;
+		String description = found.containsField("description") ? found.get(
+				"description").toString() : null;
 		campaign.setDescription(description);
-		String externalLink = found.containsField("externalLink") ? found.get("externalLink").toString() : null;
+		String externalLink = found.containsField("externalLink") ? found.get(
+				"externalLink").toString() : null;
 		campaign.setExternalLink(externalLink);
 		return campaign;
 	}
-	
-	private void printObjects(DB db) {
-		System.out.println("aktueller Datenbestand:");
 
-		Set<String> colls = db.getCollectionNames();
-
-		System.out.println("-------------------------------");
-		for (String s : colls) {
-			System.out.println(s);
-		}
-	}
-
-	public List<QrCode> findQrCodesForCampaign(String campaignId) {
-		ArrayList<QrCode> qrCodes = new ArrayList<QrCode>();
+	private QrCode createQrCodesFromDbObject(DBObject found) {
+		QrCode qrCode = new QrCode();
+		qrCode.setId(found.get("_id").toString());
+		qrCode.setCampaignId(found.get("campaignId").toString());
+		qrCode.setImageData(found.get("imageData").toString());
 		
-		DBCollection allQrCodes = database.getCollection("qrCodes");
-		DBObject query = new BasicDBObject("campaignId", new ObjectId(campaignId));
+		Double latitude = found.containsField("latitude") ? (Double) found.get(
+				"latitude") : null;
+		qrCode.setLatitude(latitude);
 		
-		DBCursor found = allQrCodes.find(query);
-		while (found.hasNext()) {
-			DBObject dbObject = (DBObject) found.next();
-			
-			System.out.println(dbObject);
-			
-			QrCode qrCode = new QrCode();
-			qrCode.setCampaignId(dbObject.get("campaignId").toString());
-			qrCode.setImageData(dbObject.get("imageData").toString());
-			qrCodes.add(qrCode);
-		}
+		Double longitude = found.containsField("longitude") ? (Double) found.get(
+				"longitude") : null;
+		qrCode.setLongitude(longitude);
 		
-		System.out.println("Ende");
-		
-		return qrCodes;
+		Integer accuracy = found.containsField("accuracy") ? (Integer) found.get(
+				"accuracy") : null;
+		qrCode.setAccuracy(accuracy);
+		return qrCode;
 	}
 
 }
