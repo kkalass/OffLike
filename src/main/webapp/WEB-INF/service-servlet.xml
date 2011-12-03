@@ -48,12 +48,13 @@
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<bean class="org.offlike.server.service.MongoDbService" />
 
-
+    <bean id="antisamyFilePathFactory" class="org.springframework.core.io.ClassPathResource">
+       <constructor-arg value="/antisamy-slashdot-1.4.4.xml"></constructor-arg>
+    </bean>
+    <bean id="antisamyFilePath" factory-bean="antisamyFilePathFactory" factory-method="getURL"></bean>
 	<bean id="owaspPolicy" class="org.owasp.validator.html.Policy"
 		factory-method="getInstance">
-		<constructor-arg>
-			<value>antisamy-slashdot-1.4.4.xml</value>
-		</constructor-arg>
+		<constructor-arg ref="antisamyFilePath"></constructor-arg>
 	</bean>
 
 </beans>

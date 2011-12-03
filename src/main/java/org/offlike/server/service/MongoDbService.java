@@ -7,6 +7,7 @@ import java.util.Set;
 import org.bson.types.ObjectId;
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -18,6 +19,7 @@ public class MongoDbService {
 
 	private final DB database;
 
+	@Autowired
 	public MongoDbService(DB database) {
 		this.database = database;
         }
