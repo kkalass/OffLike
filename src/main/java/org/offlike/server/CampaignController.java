@@ -51,7 +51,7 @@ public class CampaignController {
 	public ModelAndView createCampaign(
 			@RequestParam("title") String title,
 			@RequestParam("description") String description,
-			@RequestParam(value = "refererUrl", required = false) String refererUrl) {
+			@RequestParam(value = "externalLink", required = false) String externalLink) {
 
 		Map<String, String> errorMap = new HashMap<String, String>();
 
@@ -63,13 +63,13 @@ public class CampaignController {
 		if (cleanDescription == null) {
 			errorMap.put("description", "Dirty input!");
 		}
-		if (refererUrl != null && !isUrlValid(refererUrl)) {
+		if (externalLink != null && !isUrlValid(externalLink)) {
 			errorMap.put("refererUrl", "Not valid");
 		}
 
 		Campaign campaign = new Campaign();
 		campaign.setDescription(cleanDescription);
-		campaign.setRefererUrl(refererUrl);
+		campaign.setExternalLink(externalLink);
 
 		if (errorMap.isEmpty()) {
 
