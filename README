@@ -1,3 +1,11 @@
+Lokale Einrichtung:
+---------
+- mongodb installieren
+- Datenverzeichnis erstellen: 
+  mkdir -p app/db
+- Datenbank starten:
+  mongod --dbpath app/db/
+
 
 Lokales Starten der Anwendung:
 --------
@@ -5,4 +13,11 @@ export REPO=$HOME/.m2/repository
 
 foreman start
 
-
+Wenn man deployen will:
+----------------------
+- Heroku Account erzeugen
+- Als Collaborator eintragen lassen
+- gem install heroku
+- heroku login
+- Remote für Heroku im Git einrichten:
+git remote add heroku git@heroku.com:offlike.git
