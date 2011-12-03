@@ -2,7 +2,7 @@
   <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#">OffLike</a>
+          <a class="brand" href="#"></a>
           <ul class="nav">
             <li class="active" ><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
@@ -25,9 +25,8 @@
           </div>
         </div>
       </div>
-   </div>
 
-   <%@include file="footer.jsp"%>
+      <%@include file="footer.jsp"%>
 
    </div> <!-- /container -->
 
