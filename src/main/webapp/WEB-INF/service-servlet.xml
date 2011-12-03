@@ -10,9 +10,10 @@
 	<bean name="/campange" id="debugController" class="org.offlike.server.Controller">
 	</bean>
 
+	<bean id="likeController" class="org.offlike.server.LikeController">
+	</bean>
 
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
 				<ref bean="jacksonMessageConverter" />
@@ -22,9 +23,9 @@
 
 	<bean id="jacksonMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-	
-	
-		<bean id="viewResolver"
+
+
+	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.JstlView" />

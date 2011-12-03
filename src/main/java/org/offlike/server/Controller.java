@@ -20,7 +20,7 @@ public class Controller {
 	@ResponseBody
 	public Campaign test(){
 		Campaign camp = new Campaign();
-		camp.setName("great");
+		camp.setTitle("test");
 		return camp;
 	}
 }
