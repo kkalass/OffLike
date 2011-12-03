@@ -88,7 +88,7 @@ public class CampaignController {
 			return errorPage("Id is not valid");
 		}
 
-		Campaign camp = dbService.getCampaignById(id);
+		Campaign camp = dbService.findCampaignById(id);
 
 		if (camp==null){
 			return errorPage("No campaign with that id!");
