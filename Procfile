@@ -1,1 +1,1 @@
-web: java -Dmongodb.hostname=${MONGODB_HOSTNAME} -Dmongodb.port=${MONGODB_PORT} -Dmongodb.username=${MONGODB_USERNAME} -Dmongodb.password=${MONGODB_PASSWORD} -Dmongodb.dbname=${MONGODB_DBNAME}  $JAVA_OPTS -jar target/dependency/jetty-runner.jar --port $PORT target/*.war
+web: echo "java -Dmongodb.hostname=$MONGODB_HOSTNAME -Dmongodb.port=$MONGODB_PORT -Dmongodb.username=$MONGODB_USERNAME -Dmongodb.uri=$MONGOLAB_URI -Dmongodb.password=$MONGODB_PASSWORD -Dmongodb.dbname=$MONGODB_DBNAME  $JAVA_OPTS -jar target/dependency/jetty-runner.jar --port $PORT target/*.war"
