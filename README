@@ -5,4 +5,11 @@ export REPO=$HOME/.m2/repository
 
 foreman start
 
-
+Wenn man deployen will:
+----------------------
+- Heroku Account erzeugen
+- Als Collaborator eintragen lassen
+- gem install heroku
+- heroku login
+- Remote für Heroku im Git einrichten:
+git remote add heroku git@heroku.com:offlike.git
