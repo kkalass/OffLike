@@ -16,6 +16,7 @@ import com.mongodb.DBObject;
 
 public class MongoDbService {
 
+	
 	private final DB database;
 
 	@Autowired
