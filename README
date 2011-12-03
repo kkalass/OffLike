@@ -1,6 +1,8 @@
 
-Install:
+Lokales Starten der Anwendung:
 --------
 export REPO=$HOME/.m2/repository
+
+foreman start
 
 
