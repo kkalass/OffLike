@@ -13,6 +13,9 @@
 	<bean id="likeController" class="org.offlike.server.LikeController">
 	</bean>
 
+	<bean id="campaignController" class="org.offlike.server.CampaignController">
+	</bean>
+
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>

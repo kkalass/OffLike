@@ -11,7 +11,11 @@
        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
        
   
-       
+       <bean id="owaspPolicy" class="org.owasp.validator.html.Policy" factory-method="getInstance">
+       		<constructor-arg>
+       			<value>antisamy-slashdot-1.4.4.xml</value>
+       		</constructor-arg>
+       </bean>
 
 
 </beans>

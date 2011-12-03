@@ -84,4 +84,7 @@ public class MongoDbService {
 	public static void main(String[] args) {
 		new MongoDbService().createPoster(new Campaign());
 	}
+
+
+	
 }

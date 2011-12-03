@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
 @org.springframework.stereotype.Controller
 public class LikeController {
 
-	
+	//TODO count the number of requests, 
 	@RequestMapping("/like/{posterId}")
 	public ModelAndView like(@RequestParam("campaign_name") String campaignName, @PathVariable("posterId") String posterId) {
 		return new ModelAndView("like",  ImmutableMap.<String, Object>of("campaignName", campaignName));
