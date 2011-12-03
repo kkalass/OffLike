@@ -11,7 +11,10 @@
 		class="org.offlike.server.Controller">
 	</bean>
 
-
+     <bean id="likeController"
+		class="org.offlike.server.LikeController">
+	</bean>
+	
 	<!--bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
