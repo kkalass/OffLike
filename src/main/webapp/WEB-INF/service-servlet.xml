@@ -21,6 +21,7 @@
 	</bean>
 
 	<bean id="likeController" class="org.offlike.server.LikeController">
+		<property name="dbService" ref="dbService"/>
 	</bean>
 
 	<bean id="campaignController" class="org.offlike.server.CampaignController">
@@ -56,7 +57,7 @@
 	<bean factory-bean="mongoProvider" factory-method="get" />
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-	<bean class="org.offlike.server.service.MongoDbService" />
+	<bean id="dbService" class="org.offlike.server.service.MongoDbService" />
 	<bean class="org.offlike.server.service.QrCodeService" />
 	
 

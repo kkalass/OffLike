@@ -61,10 +61,10 @@ public class CampaignController {
 			.getLogger(CampaignController.class);
 
 	@Autowired
-	Policy policy;
+	private Policy policy;
 
 	@Autowired
-	MongoDbService dbService;
+	private MongoDbService dbService;
 
 	/**
 	 * Shows a new campaign page
