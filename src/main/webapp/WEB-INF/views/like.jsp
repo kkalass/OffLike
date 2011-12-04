@@ -16,6 +16,7 @@
 
   <h1>Campaign ${campaign.title}</h1>
   <p>${campaign.description}</p>
+
   <p><c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
   <p>
   <g:plusone href="${url}"></g:plusone>

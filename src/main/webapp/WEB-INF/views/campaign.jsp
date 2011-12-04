@@ -36,6 +36,8 @@
             <p>${campaign.description}</p>
             <p>
             <c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
+            
+            <div><img src="${mapUrl}" border=0></div>
             <h3>Create new QR Codes</h3>
             <form action="/createQrCodes" method="POST">
               <fieldset>

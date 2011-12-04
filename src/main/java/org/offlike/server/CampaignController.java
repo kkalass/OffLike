@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -134,7 +135,24 @@ public class CampaignController {
 			presentationCode.put("likeUrl", UrlBuilder.createLikeURL(code.getId()));
 			presentationCodes.add(presentationCode);
 		}
-		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", presentationCodes));
+		
+		Iterator<QrCode> it = codesForCampaign.iterator();
+		StringBuilder mapUrl = new StringBuilder();
+		mapUrl.append("http://maps.google.com/maps/api/staticmap?zoom=15&size=330x230&maptype=roadmap&markers=color:red|");
+		appendPosition(mapUrl, it.next());
+		mapUrl.append("&markers=size:tiny|color:blue");
+		while(it.hasNext()) {
+			mapUrl.append("|");
+			appendPosition(mapUrl, it.next());
+		}
+		mapUrl.append("&mobile=true&sensor=true");
+		
+		
+		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", presentationCodes, "mapUrl", mapUrl));
+	}
+
+	private void appendPosition(StringBuilder mapUrl, QrCode next) {
+		mapUrl.append(next.getLongitude()).append(",").append(next.getLatitude());
 	}
 
 	@RequestMapping(value="/createQrCodes", method=RequestMethod.POST)
