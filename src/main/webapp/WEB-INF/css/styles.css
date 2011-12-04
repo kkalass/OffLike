@@ -48,6 +48,17 @@
         border: 0;
       }
 
+.topbar .fill {
+  background-color: #1b5d86;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#1b5d86), to(#548cb0));  
+  background-image: -moz-linear-gradient(top, #1b5d86, #548cb0);
+  background-image: -ms-linear-gradient(top, #1b5d86, #548cb0);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1b5d86), color-stop(100%, #548cb0));
+  background-image: -webkit-linear-gradient(top, #1b5d86, #548cb0);
+  background-image: -o-linear-gradient(top, #1b5d86, #548cb0);
+  background-image: linear-gradient(top, #1b5d86, #548cb0);
+}
+
 .topbar h3 a, .topbar .brand {
 
    color: #FFFFFF;

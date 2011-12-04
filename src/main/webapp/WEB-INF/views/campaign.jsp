@@ -2,7 +2,7 @@
   <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#"></a>
+          <a class="brand" href="/"></a>
           <ul class="nav">
             <li><a href="/">Home</a></li>
             <li class="active"><a href="#">Edit Campaign</a></li>
