@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -138,7 +139,7 @@ public class CampaignController {
 			presentationCodes.add(presentationCode);
 		}
 		
-		Iterable<QrCode> registeredCodes = Iterables.filter(codesForCampaign, new Predicate<QrCode>() {
+		Iterable<QrCode> registeredCodes = ImmutableList.copyOf(Iterables.filter(codesForCampaign, new Predicate<QrCode>() {
 			@Override
 			public boolean apply(QrCode arg0) {
 				
@@ -146,7 +147,8 @@ public class CampaignController {
 				System.out.println("r: " + r + ",  arg0 "+ arg0);
 			return r;
 			}
-		});
+		}));
+		System.out.println("registered codes: " + registeredCodes);
 		Iterator<QrCode> it = registeredCodes.iterator();
 		
 		StringBuilder mapUrl = new StringBuilder();
