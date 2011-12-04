@@ -162,7 +162,7 @@ public class CampaignController {
 	}
 
 	private void appendPosition(StringBuilder mapUrl, QrCode next) {
-		mapUrl.append(next.getLongitude()).append(",").append(next.getLatitude());
+		mapUrl.append(next.getLatitude()).append(",").append(next.getLongitude());
 	}
 
 	@RequestMapping(value="/createQrCodes", method=RequestMethod.POST)
