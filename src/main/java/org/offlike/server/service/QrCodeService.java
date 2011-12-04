@@ -13,6 +13,7 @@ public class QrCodeService {
 	private static final String GOOGLE_QR_API_URL = "http://chart.apis.google.com/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=http%3A%2F%2Fofflike.org%2Fcampaign%2F";
 
 	public void generateQrCode(Campaign campaign, String fileName) throws Exception {
+		
 		String generatedCampagneId = "" + campaign.getId();
 		URL url = new URL(GOOGLE_QR_API_URL + generatedCampagneId);
 		BufferedImage read = ImageIO.read(url);

@@ -18,12 +18,14 @@
 
       <div class="content">
         <div class="page-header">
-          <h1>${title}<small></small></h1>
+          <h1>${campaign.title}<small></small></h1>
         </div>
         <div class="row">
           <div class="span10">
             <h2>Description</h2>
-            <p>${description}</p>
+            <p>${campaign.description}</p>
+            <p>
+            <c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
           </div>
           <div class="span4">
             <h3>Secondary content</h3>
