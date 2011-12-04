@@ -2,7 +2,7 @@
   <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#"></a>
+          <a class="brand" href="/"></a>
           <ul class="nav">
             <li><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
@@ -12,7 +12,8 @@
         </div>
       </div>
     </div>
-
+    
+   <div class="container">
  	<div class="content">
         <div class="row">
           <div class="span10">

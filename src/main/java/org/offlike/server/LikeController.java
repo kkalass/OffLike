@@ -17,7 +17,10 @@ public class LikeController {
 	private MongoDbService _service;
 	
 	@RequestMapping("/like/{posterId}")
-	public ModelAndView like(@RequestParam("campaign_name") String campaignName, @PathVariable("posterId") String posterId) {
+	public ModelAndView like(@RequestParam("campaign_name") String campaignName, @RequestParam("lat") Double lat, @RequestParam("lng") Double lng, @RequestParam("accuracy") Integer accuracy, @PathVariable("id") String id) {
+		
+		_service.activateQrCode(id, lat, lng, accuracy);
+		
 		int numCampaigns = _service.countCampaigns();
 		return new ModelAndView("like",  ImmutableMap.<String, Object>of("campaignName", campaignName + " " + numCampaigns));
 	}

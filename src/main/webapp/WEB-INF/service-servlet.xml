@@ -57,6 +57,9 @@
 	<bean
 		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	<bean class="org.offlike.server.service.MongoDbService" />
+	<bean class="org.offlike.server.service.QrCodeService" />
+	
+
 
 	<bean id="bitlyManager" class="org.offlike.server.service.BitlyUrlService">
 		<constructor-arg value="joecks" />

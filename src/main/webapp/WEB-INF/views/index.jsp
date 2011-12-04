@@ -2,7 +2,7 @@
   <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="#"></a>
+          <a class="brand" href="/"></a>
           <ul class="nav">
             <li class="active" ><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
@@ -21,7 +21,7 @@
             <h2>Main content</h2>
           </div>
           <div class="span4">
-            <h3>Secondary content</h3>
+            <img src="/img/androidphone.png"/>
           </div>
         </div>
       </div>
