@@ -36,7 +36,8 @@ public class CampaignController {
 	public static final String CAMPAIGN_FIELD = "campaign";
 	public static final String CAMPAIGN_PAGE = "campaign";
 	public static final String QR_CODE_LIST = "qrcodeList";
-	
+
+	@Autowired
 	private QrCodeService qrCodeService;
 
 	public Policy getPolicy() {
