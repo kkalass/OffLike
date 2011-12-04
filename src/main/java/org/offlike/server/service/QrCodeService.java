@@ -13,7 +13,7 @@ public class QrCodeService {
 
 	private static final String URL_ENCODING = "UTF-8";
 	private static final String GOOGLE_QR_API = "http://chart.apis.google.com/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=";
-	private static final String OFFLIKE_DOMAIN = "http://offlike.org/like/";
+	private static final String OFFLIKE_DOMAIN = "http://offlike.herokuapp.com/like/";
 	
 	private final MongoDbService mongoDbService;
 	
