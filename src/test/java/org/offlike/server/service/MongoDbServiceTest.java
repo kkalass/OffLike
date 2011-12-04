@@ -21,8 +21,8 @@ import com.mongodb.MongoException;
 
 public class MongoDbServiceTest {
 
-	private MongoDbService mongoDbService;
-	private DB database;
+	public MongoDbService mongoDbService;
+	public DB database;
 
 	@Before
 	public void setup() throws UnknownHostException, MongoException {
