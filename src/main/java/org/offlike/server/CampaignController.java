@@ -144,7 +144,9 @@ public class CampaignController {
 			public boolean apply(QrCode arg0) {
 				
 				boolean r= arg0.getLongitude() != null && arg0.getLatitude() != null;
-				System.out.println("r: " + r + ",  arg0 "+ arg0);
+				System.out.println("****************************");
+				System.out.println("r: " + r + ",  arg0 "+ arg0.getLongitude() + " " + arg0.getLatitude() + " " + arg0.getAccuracy() + " " + arg0.getCampaignId() + " " + arg0.getId() + " " );
+				System.out.println("****************************");
 			return r;
 			}
 		}));
