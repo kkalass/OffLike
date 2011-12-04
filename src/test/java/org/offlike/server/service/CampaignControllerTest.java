@@ -37,6 +37,9 @@ public class CampaignControllerTest {
 		
 		Policy policy = Policy.getInstance(ClassLoader.getSystemResourceAsStream("antisamy-slashdot-1.4.4.xml"));
 		campaignController.setPolicy(policy);
+		
+		QrCodeService qrCodeService = new QrCodeService();
+		campaignController.setQrCodeService(qrCodeService);
 	}
 	
 	@Test
