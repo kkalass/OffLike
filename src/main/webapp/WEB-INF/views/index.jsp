@@ -27,11 +27,13 @@
  <p>    How it works: First you create a new campaign at Off Like. Entering a title, description and the amount of QR codes you need. Then Off Like creates the needed codes. You print them and put them on your campaign poster. These posters are distributed in the local area where problems appear. Everytime somebody sees a poster, he or she scans the code with the Off Like App and likes the poster immediatly. If the person hasn't got the app, he or she is directed to the site where the person can 'like' the idea.  Statistics about the amount on views, likes and gps coordinates are viewable on offlike.com. This is how you can add a like button in the real-world.
              
             </p>
+ <p>We created this service as part of the RHOK #4 in Berlin. For more background information visit our <a href="http://www.rhok.org/solutions/off-like" target="_blank">solution page</a>, the original <a href="http://www.rhok.org/node/18611" target="_blank">problem definition</a> or have a look at our <a href="/extra/presentation3.pdf">Presentation</a>.</p>
             
             <div><a class="btn primary" href="/createCampaign">Create new Campaign</a></div>
           </div>
           <div class="span4">
             <img src="/img/androidphone.png"/>
+            <a class="btn" href="https://market.android.com/details?id=org.rhok.offlike&feature=search_result#?t=W251bGwsMSwxLDEsIm9yZy5yaG9rLm9mZmxpa2UiXQ">Get the Android app!</a></p>
           </div>
         </div>
       </div>

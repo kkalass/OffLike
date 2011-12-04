@@ -14,6 +14,7 @@
 	<mvc:default-servlet-handler/>
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" /> 
 	<mvc:resources mapping="/img/**" location="/WEB-INF/img/" /> 
+	<mvc:resources mapping="/extra/**" location="/WEB-INF/extra/" /> 
 	<mvc:view-controller path="/about.html" view-name="about" />
 	<mvc:view-controller path="/contact.html" view-name="contact" />
 
