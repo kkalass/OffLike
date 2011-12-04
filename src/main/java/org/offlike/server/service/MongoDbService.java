@@ -52,6 +52,20 @@ public class MongoDbService {
 
 		qrCode.setId(((ObjectId) dbQrCode.get("_id")).toString());
 	}
+	
+	
+	public void activateQrCode(String qrCodeId, double latitude, double longitude, int acurracy) {
+		DBCollection allQrCodes = database.getCollection("qrCodes");
+		DBObject query = new BasicDBObject("_id", new ObjectId(qrCodeId));
+		
+		DBObject found = allQrCodes.findOne(query);
+		
+		found.put("longitude", longitude);
+		found.put("latitude", latitude);
+		found.put("accuracy", acurracy);
+		
+		allQrCodes.update(query, found);
+	}
 
 	public QrCode findQrCodeById(String qrCodeId) {
 		DBCollection allQrCodes = database.getCollection("qrCodes");

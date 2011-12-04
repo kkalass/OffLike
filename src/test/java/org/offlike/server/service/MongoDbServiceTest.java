@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.offlike.server.data.Campaign;
@@ -14,6 +15,7 @@ import org.offlike.server.data.QrCode;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
@@ -58,7 +60,7 @@ public class MongoDbServiceTest {
 	}
 	
 	@Test
-	public void testFindCampaign() {
+	public void testFindCampaignById() {
 		BasicDBObject camp = new BasicDBObject();
 		camp.put("title", "test-title");
 		DBCollection campaigns = database.getCollection("campaigns");
@@ -69,23 +71,83 @@ public class MongoDbServiceTest {
 
 	@Test
 	public void testCreateQrCode() {
-		Campaign campaign = new Campaign();
-		campaign.setTitle("Save the whales");
-		campaign.setDescription("Let us save the whales");
-		campaign.setExternalLink("http://...");
-		mongoDbService.createCampaign(campaign);
+		Campaign campaignA = new Campaign();
+		campaignA.setTitle("Save the whales");
+		campaignA.setDescription("Let us save the whales");
+		campaignA.setExternalLink("http://...");
+		mongoDbService.createCampaign(campaignA);
+		
+		Campaign campaignB = new Campaign();
+		campaignB.setTitle("Don't save the whales");
+		campaignA.setDescription("Let us not save the whales");
+		mongoDbService.createCampaign(campaignB);
 		
 		// no QrCodes for the campaign
-		List<QrCode> allQrCodes = mongoDbService.findQrCodesForCampaign(campaign.getId());
-		assertEquals(0, allQrCodes.size());
+		List<QrCode> allQrCodesA = mongoDbService.findQrCodesForCampaign(campaignA.getId());
+		assertEquals(0, allQrCodesA.size());
+		List<QrCode> allQrCodesB = mongoDbService.findQrCodesForCampaign(campaignB.getId());
+		assertEquals(0, allQrCodesB.size());
 		
 		QrCode qrCode = new QrCode();
 		qrCode.setImageData("abcdefgh");
-		mongoDbService.createQrCode(campaign, qrCode);
+		mongoDbService.createQrCode(campaignA, qrCode);
 
-		// one QrCodes for the campaign
-		allQrCodes = mongoDbService.findQrCodesForCampaign(campaign.getId());
-		assertEquals(1, allQrCodes.size());
+		// one QrCodes for the campaign A
+		allQrCodesA = mongoDbService.findQrCodesForCampaign(campaignA.getId());
+		assertEquals(1, allQrCodesA.size());
+		allQrCodesB = mongoDbService.findQrCodesForCampaign(campaignB.getId());
+		assertEquals(0, allQrCodesB.size());
 		
+		QrCode qrCodeOfCampaignA = allQrCodesA.get(0);
+		assertNotNull(qrCodeOfCampaignA.getId());
+		assertEquals(campaignA.getId(), qrCodeOfCampaignA.getCampaignId());
+		assertEquals("abcdefgh", qrCodeOfCampaignA.getImageData());
+	}
+	
+	@Test
+	public void testFindQrCodeById() {
+		BasicDBObject qrCode = new BasicDBObject();
+		qrCode.put("imageData", "abcdefgh");
+		qrCode.put("campaignId", "123456");
+		qrCode.put("latitude", 12345.67);
+		qrCode.put("longitude", 98765.43);
+		qrCode.put("accuracy", 10);
+		
+		DBCollection qrCodes = database.getCollection("qrCodes");
+		qrCodes.insert(qrCode);
+		QrCode campaign = mongoDbService.findQrCodeById(qrCode.getString("_id"));
+		assertEquals("abcdefgh", campaign.getImageData());
+		assertEquals("123456", campaign.getCampaignId());
+		assertEquals(new Double(12345.67), campaign.getLatitude());
+		assertEquals(new Double(98765.43), campaign.getLongitude());
+		assertEquals(new Integer(10), campaign.getAccuracy());
+	}
+	
+	@Test
+	public void testActivateQrCode() {
+		BasicDBObject qrCode = new BasicDBObject();
+		qrCode.put("imageData", "abcdefgh");
+		qrCode.put("campaignId", "123456");
+		
+		DBCollection qrCodes = database.getCollection("qrCodes");
+		qrCodes.insert(qrCode);
+		String qrCodeId = qrCode.getString("_id");
+		
+		mongoDbService.activateQrCode(qrCodeId, 12345.67, 98765.43, 10);
+		assertEquals(1, database.getCollection("qrCodes").find().count());
+
+		DBCollection allQrCodes = database.getCollection("qrCodes");
+		DBObject query = new BasicDBObject("_id", new ObjectId(qrCodeId));
+		DBObject updatedDbObject = allQrCodes.findOne(query);
+		assertEquals(new Double(12345.67), updatedDbObject.get("latitude"));
+		assertEquals(new Double(98765.43), updatedDbObject.get("longitude"));
+		assertEquals(new Integer(10), updatedDbObject.get("accuracy"));
+		
+		QrCode updatedQrCode = mongoDbService.findQrCodeById(qrCodeId);
+		assertEquals("abcdefgh", updatedQrCode.getImageData());
+		assertEquals("123456", updatedQrCode.getCampaignId());
+		assertEquals(new Double(12345.67), updatedQrCode.getLatitude());
+		assertEquals(new Double(98765.43), updatedQrCode.getLongitude());
+		assertEquals(new Integer(10), updatedQrCode.getAccuracy());
 	}
 }
