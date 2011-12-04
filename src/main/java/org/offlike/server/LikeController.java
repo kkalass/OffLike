@@ -1,6 +1,7 @@
 package org.offlike.server;
 
 import org.offlike.server.service.MongoDbService;
+import org.offlike.server.service.UrlBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,8 @@ public class LikeController {
 	
 		int numCampaigns = getDbService().countCampaigns();
 		return new ModelAndView("like", ImmutableMap.<String, Object> of(
-				"campaignName", campaignName + " " + numCampaigns));
+				"campaignName", campaignName + " " + numCampaigns,
+				"url", UrlBuilder.createLikeURL(id)));
 	}
 
 	public MongoDbService getDbService() {

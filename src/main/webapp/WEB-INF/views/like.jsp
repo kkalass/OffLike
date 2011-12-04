@@ -17,7 +17,7 @@
   <h1>Campaign ${campaignName}</h1>
   <p>Jetzt liken!</p>
   <p>
-  <g:plusone href="http://stackoverflow.com"></g:plusone>
+  <g:plusone href="${url}"></g:plusone>
   <div class="fb-like" data-href="${url}" data-send="true" data-width="450" data-show-faces="true"></div>
   
  </p>
