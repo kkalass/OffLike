@@ -1,6 +1,7 @@
 package org.offlike.server.service;
 
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -19,12 +20,18 @@ public class QrCodeService {
 		this.mongoDbService = mongoDbService;
 	}
 	
-	public URL generateQrCode(String campaignId) throws Exception {
+	public URL generateQrCode(String campaignId)  {
 		QrCode qrCode = new QrCode();
 		Campaign campaign = mongoDbService.findCampaignById(campaignId);
 		mongoDbService.createQrCode(campaign, qrCode);
 		
-		return new URL(GOOGLE_QR_API + parseUrl(qrCode.getId(), campaign.getTitle()));
+		try {
+			return new URL(GOOGLE_QR_API + parseUrl(qrCode.getId(), campaign.getTitle()));
+		} catch (MalformedURLException e) {
+			return null;
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
 	}
 	
 	protected static String parseUrl(String qrCodeId, String campaignTitle) throws UnsupportedEncodingException {

@@ -146,7 +146,10 @@ public class CampaignController {
 		
 		List<String> qrCodeList = new ArrayList<String>();
 		for (int i = 0; i < ammount ; i ++){
-			 qrCodeList.add(qrCodeService.generateQrCode(id));
+			final URL url = qrCodeService.generateQrCode(id);
+			if (url != null) {
+				qrCodeList.add(url.toExternalForm());
+			}
 		}
 		
 		
