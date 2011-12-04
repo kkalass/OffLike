@@ -126,34 +126,38 @@ public class CampaignController {
 		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp));
 	}
 
-	@RequestMapping("/qr/{id}")
-	public ModelAndView createQrCodes(@PathVariable("id") String id,
-			@RequestParam("amount") Integer ammount) {
-
-		ammount = ammount == null ? 1 : ammount;
-		if (!isValidAmmountOfQrCodes(ammount)) {
-			return errorPage("Maxium are "+MAX_QR_CODES+" Qr Codes per request");
-		}
-
+	@RequestMapping(value="/createQrCodes", method=RequestMethod.POST)
+	public ModelAndView createQrCodes(@RequestParam("campaignid") String id,
+			@RequestParam("numberOfCodes") Integer ammount) {
 		if (!isIdValid(id)){
 			return errorPage("Bad campaign id!");
 		}
+		
+		Map<String, String> errorMap = new HashMap<String, String>();
+		
+		ammount = ammount == null ? 1 : ammount;
+		if (!isValidAmmountOfQrCodes(ammount)) {
+			errorMap.put("numberOfCodes", "Max " + MAX_QR_CODES + " per form submit");	
+		}
+
 		
 		Campaign campaign = dbService.findCampaignById(id);
 		if (campaign==null){
 			return errorPage("Unknown campaign id!");
 		}
 		
-		List<String> qrCodeList = new ArrayList<String>();
-		for (int i = 0; i < ammount ; i ++){
-			final URL url = qrCodeService.generateQrCode(id);
-			if (url != null) {
-				qrCodeList.add(url.toExternalForm());
+		if (errorMap.isEmpty()) {
+			List<String> qrCodeList = new ArrayList<String>();
+			for (int i = 0; i < ammount ; i ++){
+				final URL url = qrCodeService.generateQrCode(id);
+				if (url != null) {
+					qrCodeList.add(url.toExternalForm());
+				}
 			}
+			return new ModelAndView(QR_CODE_PAGE, ImmutableMap.of(CAMPAIGN_FIELD, campaign, QR_CODE_LIST, qrCodeList));
 		}
 		
-		
-		return new ModelAndView(QR_CODE_PAGE, ImmutableMap.of(CAMPAIGN_FIELD, campaign, QR_CODE_LIST, qrCodeList));
+		return new ModelAndView("campaign", ImmutableMap.of("campaign", campaign, "errorMap", errorMap));
 	}
 
 	private ModelAndView errorPage(String error) {

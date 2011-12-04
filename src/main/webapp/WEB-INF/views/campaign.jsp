@@ -26,6 +26,24 @@
             <p>${campaign.description}</p>
             <p>
             <c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
+            <h3>Create new QR Codes</h3>
+            <form action="/createQrCodes" method="POST">
+              <fieldset>
+                  <input type="hidden" name="campaignid" value="${campaign.id}">
+                  
+		          <div class="clearfix <c:if test="${errorMap.numberOfCodes}" >error</c:if>">
+		            <label for="title">Number of Codes</label>
+		            <div class="input">
+		              <input class="xlarge <c:if test="${errorMap.numberOfCodes}" >error</c:if>" id="numberOfCodes" name="numberOfCodes" value="${numberOfCodes}" size="30" type="text">
+		              <span class="help-inline">${errorMap.numberOfCodes}</span>
+		            </div>
+		          </div>
+		          
+		          <div class="actions">
+		            <input type="submit" class="btn primary" value="Create New QR Codes">&nbsp;<button type="reset" class="btn">Cancel</button>
+		          </div>
+	          </fieldset>
+            </form>
           </div>
           <div class="span4">
             <h3>Secondary content</h3>
