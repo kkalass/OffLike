@@ -4,7 +4,7 @@ public class QrCode {
 
 	private String id;
 	private String campaignId;
-	private String imageData;
+	private int counter = 0;
 	private Double latitude;
 	private Double longitude;
 	private Integer accuracy;
@@ -33,12 +33,16 @@ public class QrCode {
 		this.longitude = longitude;
 	}
 
-	public String getImageData() {
-		return imageData;
+	public int getCounter() {
+		return counter;
 	}
 
-	public void setImageData(String qrCode) {
-		this.imageData = qrCode;
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	public void increaseCounter() {
+		this.counter++;
 	}
 
 	public String getCampaignId() {

@@ -45,7 +45,7 @@ public class MongoDbService {
 	public void createQrCode(Campaign campaign, QrCode qrCode) {
 		BasicDBObject dbQrCode = new BasicDBObject();
 		dbQrCode.put("campaignId", campaign.getId());
-		dbQrCode.put("imageData", qrCode.getImageData());
+		dbQrCode.put("counter", qrCode.getCounter());
 
 		DBCollection dbQrCodes = database.getCollection("qrCodes");
 		dbQrCodes.insert(dbQrCode);
@@ -126,7 +126,7 @@ public class MongoDbService {
 		QrCode qrCode = new QrCode();
 		qrCode.setId(found.get("_id").toString());
 		qrCode.setCampaignId(found.get("campaignId").toString());
-		qrCode.setImageData(found.get("imageData").toString());
+		qrCode.setCounter((Integer) found.get("counter"));
 		
 		Double latitude = found.containsField("latitude") ? (Double) found.get(
 				"latitude") : null;
