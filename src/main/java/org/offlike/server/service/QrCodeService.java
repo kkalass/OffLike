@@ -1,9 +1,7 @@
 package org.offlike.server.service;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
@@ -11,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class QrCodeService {
 
-	private static final String URL_ENCODING = "UTF-8";
 	private static final String GOOGLE_QR_API = "http://chart.apis.google.com/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=";
-	private static final String OFFLIKE_DOMAIN = "http://offlike.herokuapp.com/like/";
+	
 	
 	private final MongoDbService mongoDbService;
 	
@@ -27,19 +24,15 @@ public class QrCodeService {
 		Campaign campaign = mongoDbService.findCampaignById(campaignId);
 		mongoDbService.createQrCode(campaign, qrCode);
 		
+		return createUrl(qrCode, campaign);
+	}
+
+	public static URL createUrl(QrCode qrCode, Campaign campaign) {
 		try {
-			return new URL(GOOGLE_QR_API + parseUrl(qrCode.getId(), campaign.getTitle()));
+			return new URL(GOOGLE_QR_API + UrlBuilder.createEncodedLikeURL(qrCode.getId(), campaign.getTitle()));
 		} catch (MalformedURLException e) {
-			return null;
-		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
 	}
 	
-	protected static String parseUrl(String qrCodeId, String campaignTitle) throws UnsupportedEncodingException {
-		String URLdomain = URLEncoder.encode(OFFLIKE_DOMAIN+qrCodeId,URL_ENCODING);
-		String URLcamapignTitle = URLEncoder.encode(campaignTitle, URL_ENCODING);
-		
-		return URLdomain + "?campaign_name=" + URLcamapignTitle;
-	}
 }

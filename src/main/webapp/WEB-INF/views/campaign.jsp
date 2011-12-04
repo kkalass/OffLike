@@ -1,4 +1,14 @@
 <%@include file="header.jsp"%>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) {return;}
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+
   <div class="topbar">
       <div class="fill">
         <div class="container">
@@ -26,9 +36,39 @@
             <p>${campaign.description}</p>
             <p>
             <c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
+            
+            <div><img src="${mapUrl}" border=0></div>
+            <h3>Create new QR Codes</h3>
+            <form action="/createQrCodes" method="POST">
+              <fieldset>
+                  <input type="hidden" name="campaignid" value="${campaign.id}">
+                  
+		          <div class="clearfix <c:if test="${errorMap.numberOfCodes}" >error</c:if>">
+		            <label for="title">Number of Codes</label>
+		            <div class="input">
+		              <input class="xlarge <c:if test="${errorMap.numberOfCodes}" >error</c:if>" id="numberOfCodes" name="numberOfCodes" value="${numberOfCodes}" size="30" type="text">
+		              <span class="help-inline">${errorMap.numberOfCodes}</span>
+		            </div>
+		          </div>
+		          
+		          <div class="actions">
+		            <input type="submit" class="btn primary" value="Create New QR Codes">&nbsp;<button type="reset" class="btn">Cancel</button>
+		          </div>
+	          </fieldset>
+            </form>
           </div>
           <div class="span4">
-            <h3>Secondary content</h3>
+          <h3>Existing Locations</h3>
+            <c:forEach items="${qrcodeList}" var="qrcode">
+              <div class="qrcode">
+	              <p><a href="${qrcode.qrCodeImageLink}" class=" btn">Show QRCode</a></p>
+	              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
+	 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="450" data-show-faces="true"></div>
+	  
+	              <hr>
+              </div>
+            </c:forEach>
+            
           </div>
         </div>
 

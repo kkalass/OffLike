@@ -4,14 +4,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.sound.midi.Patch;
 
 import org.offlike.server.data.Campaign;
+import org.offlike.server.data.QrCode;
 import org.offlike.server.service.MongoDbService;
 import org.offlike.server.service.QrCodeService;
+import org.offlike.server.service.UrlBuilder;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
@@ -26,8 +29,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 
 @Controller
 public class CampaignController {
@@ -123,37 +129,74 @@ public class CampaignController {
 		if (camp == null) {
 			return errorPage("No campaign with that id!");
 		}
-		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp));
+		List<QrCode> codesForCampaign = dbService.findQrCodesForCampaign(id);
+		List<Map<String, Object>> presentationCodes = new ArrayList<Map<String, Object>>(codesForCampaign.size());
+		for (QrCode code : codesForCampaign){
+			Map<String, Object> presentationCode = Maps.newHashMap();
+			presentationCode.put("qrCodeImageLink", QrCodeService.createUrl(code, camp).toExternalForm());
+			presentationCode.put("likeUrl", UrlBuilder.createLikeURL(code.getId()));
+			presentationCodes.add(presentationCode);
+		}
+		
+		Iterable<QrCode> registeredCodes = Iterables.filter(codesForCampaign, new Predicate<QrCode>() {
+			@Override
+			public boolean apply(QrCode arg0) {
+				return arg0.getLongitude() != null && arg0.getLatitude() != null;
+			}
+		});
+		Iterator<QrCode> it = registeredCodes.iterator();
+		
+		StringBuilder mapUrl = new StringBuilder();
+		if (it.hasNext()) {
+			mapUrl.append("http://maps.google.com/maps/api/staticmap?zoom=15&size=330x230&maptype=roadmap&markers=color:red|");
+			appendPosition(mapUrl, it.next());
+			mapUrl.append("&markers=size:tiny|color:blue");
+			while(it.hasNext()) {
+				mapUrl.append("|");
+				appendPosition(mapUrl, it.next());
+			}
+			mapUrl.append("&mobile=true&sensor=true");
+		}
+		
+		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", presentationCodes, "mapUrl", mapUrl));
 	}
 
-	@RequestMapping("/qr/{id}")
-	public ModelAndView createQrCodes(@PathVariable("id") String id,
-			@RequestParam("amount") Integer ammount) {
+	private void appendPosition(StringBuilder mapUrl, QrCode next) {
+		mapUrl.append(next.getLongitude()).append(",").append(next.getLatitude());
+	}
 
-		ammount = ammount == null ? 1 : ammount;
-		if (!isValidAmmountOfQrCodes(ammount)) {
-			return errorPage("Maxium are "+MAX_QR_CODES+" Qr Codes per request");
-		}
-
+	@RequestMapping(value="/createQrCodes", method=RequestMethod.POST)
+	public ModelAndView createQrCodes(@RequestParam("campaignid") String id,
+			@RequestParam("numberOfCodes") Integer ammount) {
 		if (!isIdValid(id)){
 			return errorPage("Bad campaign id!");
 		}
+		
+		Map<String, String> errorMap = new HashMap<String, String>();
+		
+		ammount = ammount == null ? 1 : ammount;
+		if (!isValidAmmountOfQrCodes(ammount)) {
+			errorMap.put("numberOfCodes", "Max " + MAX_QR_CODES + " per form submit");	
+		}
+
 		
 		Campaign campaign = dbService.findCampaignById(id);
 		if (campaign==null){
 			return errorPage("Unknown campaign id!");
 		}
 		
-		List<String> qrCodeList = new ArrayList<String>();
-		for (int i = 0; i < ammount ; i ++){
-			final URL url = qrCodeService.generateQrCode(id);
-			if (url != null) {
-				qrCodeList.add(url.toExternalForm());
+		if (errorMap.isEmpty()) {
+			List<String> qrCodeList = new ArrayList<String>();
+			for (int i = 0; i < ammount ; i ++){
+				final URL url = qrCodeService.generateQrCode(id);
+				if (url != null) {
+					qrCodeList.add(url.toExternalForm());
+				}
 			}
+			return new ModelAndView(QR_CODE_PAGE, ImmutableMap.of(CAMPAIGN_FIELD, campaign, QR_CODE_LIST, qrCodeList));
 		}
 		
-		
-		return new ModelAndView(QR_CODE_PAGE, ImmutableMap.of(CAMPAIGN_FIELD, campaign, QR_CODE_LIST, qrCodeList));
+		return new ModelAndView("campaign", ImmutableMap.of("campaign", campaign, "errorMap", errorMap));
 	}
 
 	private ModelAndView errorPage(String error) {

@@ -4,6 +4,7 @@ public class QrCode {
 
 	private String id;
 	private String campaignId;
+	private String qrCodeImageLink;
 	private int counter = 0;
 	private Double latitude;
 	private Double longitude;
@@ -53,6 +54,14 @@ public class QrCode {
 		this.campaignId = campaignId;
 	}
 
+	public String getQrCodeImageLink() {
+		return qrCodeImageLink;
+	}
+	
+	public void setQrCodeImageLink(String qrCodeImageLink) {
+		this.qrCodeImageLink = qrCodeImageLink;
+	}
+	
 	public Integer getAccuracy() {
 		return accuracy;
 	}

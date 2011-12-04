@@ -1,6 +1,9 @@
 package org.offlike.server;
 
+import org.offlike.server.data.Campaign;
+import org.offlike.server.data.QrCode;
 import org.offlike.server.service.MongoDbService;
+import org.offlike.server.service.UrlBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +31,23 @@ public class LikeController {
 			getDbService().activateQrCode(id, lat, lng, accuracy);
 		}
 	
-		int numCampaigns = getDbService().countCampaigns();
+		QrCode qrCode = dbService.findQrCodeById(id);
+		if (qrCode == null) {
+			return errorPage("Unknown qr code!");
+		}
+		Campaign campaign = dbService.findCampaignById(qrCode.getCampaignId());
+		if (campaign==null){
+			return errorPage("Unknown campaign id!");
+		}
+		
 		return new ModelAndView("like", ImmutableMap.<String, Object> of(
-				"campaignName", campaignName + " " + numCampaigns));
+				"campaign", campaign,
+				"url", UrlBuilder.createLikeURL(id)));
 	}
 
+	private ModelAndView errorPage(String error) {
+		return new ModelAndView("errorPage", ImmutableMap.of("error", error));
+	}
 	public MongoDbService getDbService() {
 		return dbService;
 	}
