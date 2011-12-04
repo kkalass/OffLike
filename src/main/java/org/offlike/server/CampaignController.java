@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 @Controller
@@ -42,9 +43,10 @@ public class CampaignController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("/newCampaign")
+	@RequestMapping(method = { RequestMethod.GET }, value = "/createCampaign")
 	public ModelAndView newCampaign() {
-		return new ModelAndView("newCampaign");
+		return new ModelAndView("createCampaign");
+		//return new ModelAndView("createCampaign");
 	}
 
 	@RequestMapping(method = { RequestMethod.POST }, value = "/createCampaign")
@@ -63,7 +65,7 @@ public class CampaignController {
 		if (cleanDescription == null) {
 			errorMap.put("description", "Dirty input!");
 		}
-		if (externalLink != null && !isUrlValid(externalLink)) {
+		if (!Strings.isNullOrEmpty(externalLink) && !isUrlValid(externalLink)) {
 			errorMap.put("refererUrl", "Not valid");
 		}
 
@@ -74,17 +76,16 @@ public class CampaignController {
 		if (errorMap.isEmpty()) {
 
 			dbService.createCampaign(campaign);
-			return getCampaign(campaign.getId());
+			return new ModelAndView("redirect:campaign/"+campaign.getId());
+			//getCampaign(campaign.getId());
 		}
 
-		return new ModelAndView("newCampaign", ImmutableMap.of("errorMap",
-				errorMap));
+		return new ModelAndView("createCampaign", ImmutableMap.of("errorMap",
+				errorMap, "title", title, "description", description, "externalLink", externalLink));
 	}
 
 	@RequestMapping("/campaign/{id}")
 	public ModelAndView getCampaign(@PathVariable String id) {
-		if (true)
-		return new ModelAndView("campaign");
 		
 		if (!isIdValid(id)) {
 			return errorPage("Id is not valid");
@@ -101,8 +102,7 @@ public class CampaignController {
 
 	//TODO make errorPage
 	private ModelAndView errorPage(String error) {
-		return new ModelAndView("errorPage", ImmutableMap.of("error",
-				error));
+		return new ModelAndView("errorPage", ImmutableMap.of("error", error));
 	}
 
 	private boolean isIdValid(String id) {
@@ -125,7 +125,9 @@ public class CampaignController {
 	}
 
 	private String cleanUpString(String dirtyInput) {
-
+        if (Strings.isNullOrEmpty(dirtyInput)) {
+        	return null;
+        }
 		AntiSamy as = new AntiSamy();
 		try {
 

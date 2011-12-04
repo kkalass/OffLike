@@ -5,7 +5,7 @@
           <a class="brand" href="/"></a>
           <ul class="nav">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="#">Edit Campaign</a></li>
+            <li class="active"><a href="#">Campaign</a></li>
             <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
           </ul>
@@ -18,12 +18,12 @@
 
       <div class="content">
         <div class="page-header">
-          <h1>Oxfam - More Trees <small></small></h1>
+          <h1>${title}<small></small></h1>
         </div>
         <div class="row">
           <div class="span10">
-            <h2>Main content</h2>
-            <p>asdf 9iasdpfo adpsoif uapodsf poiasd f§9auds §f9uads9fu ads9ipuf a9u8 asd98ufaopidsj fopiadspof adsjf </p>
+            <h2>Description</h2>
+            <p>${description}</p>
           </div>
           <div class="span4">
             <h3>Secondary content</h3>
