@@ -89,7 +89,6 @@ public class MongoDbServiceTest {
 		assertEquals(0, allQrCodesB.size());
 		
 		QrCode qrCode = new QrCode();
-		qrCode.setImageData("abcdefgh");
 		mongoDbService.createQrCode(campaignA, qrCode);
 
 		// one QrCodes for the campaign A
@@ -101,13 +100,12 @@ public class MongoDbServiceTest {
 		QrCode qrCodeOfCampaignA = allQrCodesA.get(0);
 		assertNotNull(qrCodeOfCampaignA.getId());
 		assertEquals(campaignA.getId(), qrCodeOfCampaignA.getCampaignId());
-		assertEquals("abcdefgh", qrCodeOfCampaignA.getImageData());
 	}
 	
 	@Test
 	public void testFindQrCodeById() {
 		BasicDBObject qrCode = new BasicDBObject();
-		qrCode.put("imageData", "abcdefgh");
+		qrCode.put("counter", 0);
 		qrCode.put("campaignId", "123456");
 		qrCode.put("latitude", 12345.67);
 		qrCode.put("longitude", 98765.43);
@@ -116,7 +114,6 @@ public class MongoDbServiceTest {
 		DBCollection qrCodes = database.getCollection("qrCodes");
 		qrCodes.insert(qrCode);
 		QrCode campaign = mongoDbService.findQrCodeById(qrCode.getString("_id"));
-		assertEquals("abcdefgh", campaign.getImageData());
 		assertEquals("123456", campaign.getCampaignId());
 		assertEquals(new Double(12345.67), campaign.getLatitude());
 		assertEquals(new Double(98765.43), campaign.getLongitude());
@@ -126,7 +123,7 @@ public class MongoDbServiceTest {
 	@Test
 	public void testActivateQrCode() {
 		BasicDBObject qrCode = new BasicDBObject();
-		qrCode.put("imageData", "abcdefgh");
+		qrCode.put("counter", 0);
 		qrCode.put("campaignId", "123456");
 		
 		DBCollection qrCodes = database.getCollection("qrCodes");
@@ -144,7 +141,7 @@ public class MongoDbServiceTest {
 		assertEquals(new Integer(10), updatedDbObject.get("accuracy"));
 		
 		QrCode updatedQrCode = mongoDbService.findQrCodeById(qrCodeId);
-		assertEquals("abcdefgh", updatedQrCode.getImageData());
+		assertEquals(0, updatedQrCode.getCounter());
 		assertEquals("123456", updatedQrCode.getCampaignId());
 		assertEquals(new Double(12345.67), updatedQrCode.getLatitude());
 		assertEquals(new Double(98765.43), updatedQrCode.getLongitude());
