@@ -22,7 +22,7 @@ public class LikeController {
 	public ModelAndView like(
 			@RequestParam(value = "campaign_name", required = false) String campaignName,
 			@RequestParam(value = "lat", required = false) Double lat,
-			@RequestParam(value = "lng", required = false) Double lng,
+			@RequestParam(value = "lon", required = false) Double lng,
 			@RequestParam(value = "accuracy", required = false) Integer accuracy,
 			@PathVariable("id") String id) {
 
