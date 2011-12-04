@@ -26,8 +26,7 @@ public class UrlBuilder {
 	
 	public static String createEncodedLikeURL(String qrCodeId, String campaignTitle) {
 		try {
-			final String URLdomain = URLEncoder.encode(createLikeURL(qrCodeId), URL_ENCODING);
-			return URLdomain + createContentHintsPart(qrCodeId, campaignTitle);
+			return URLEncoder.encode(createLikeURL(qrCodeId) + createContentHintsPart(qrCodeId, campaignTitle), URL_ENCODING);
 		} catch (UnsupportedEncodingException e) {
 			throw new IllegalStateException(e);
 		}
