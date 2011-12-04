@@ -24,6 +24,10 @@ public class QrCodeService {
 		Campaign campaign = mongoDbService.findCampaignById(campaignId);
 		mongoDbService.createQrCode(campaign, qrCode);
 		
+		return createUrl(qrCode, campaign);
+	}
+
+	public static URL createUrl(QrCode qrCode, Campaign campaign) {
 		try {
 			return new URL(GOOGLE_QR_API + UrlBuilder.createEncodedLikeURL(qrCode.getId(), campaign.getTitle()));
 		} catch (MalformedURLException e) {

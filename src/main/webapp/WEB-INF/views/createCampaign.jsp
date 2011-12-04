@@ -23,6 +23,10 @@
         <div class="row">
           <div class="span10">
             <h2>Create a new Campaign</h2>
+             <p>Please complete all the fields (website not necessary). <br>
+             <span class="label important">VERY IMPORTANT</span> please copy  and save the URL,
+             so you can change your individual campaign later on.</p>
+             
             <form action="/createCampaign" method="POST">
               <fieldset>
 		          <div class="clearfix <c:if test="${errorMap.title}" >error</c:if>">
@@ -55,7 +59,7 @@
             
           </div>
           <div class="span4">
-            <h3>Secondary content</h3>
+            
           </div>
         </div>
 

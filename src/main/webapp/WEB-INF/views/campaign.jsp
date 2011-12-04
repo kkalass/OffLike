@@ -46,7 +46,11 @@
             </form>
           </div>
           <div class="span4">
-            <h3>Secondary content</h3>
+          <h3>Existing Locations</h3>
+            <c:forEach items="${qrcodeList}" var="qrcode">
+              <p><a href="${qrcode.qrCodeImageLink}" class="qrcode btn">Show QRCode</a></p>
+            </c:forEach>
+            
           </div>
         </div>
 
