@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.sound.midi.Patch;
-
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
 import org.offlike.server.service.MongoDbService;
