@@ -29,8 +29,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 @Controller
@@ -136,17 +138,25 @@ public class CampaignController {
 			presentationCodes.add(presentationCode);
 		}
 		
-		Iterator<QrCode> it = codesForCampaign.iterator();
-		StringBuilder mapUrl = new StringBuilder();
-		mapUrl.append("http://maps.google.com/maps/api/staticmap?zoom=15&size=330x230&maptype=roadmap&markers=color:red|");
-		appendPosition(mapUrl, it.next());
-		mapUrl.append("&markers=size:tiny|color:blue");
-		while(it.hasNext()) {
-			mapUrl.append("|");
-			appendPosition(mapUrl, it.next());
-		}
-		mapUrl.append("&mobile=true&sensor=true");
+		Iterable<QrCode> registeredCodes = Iterables.filter(codesForCampaign, new Predicate<QrCode>() {
+			@Override
+			public boolean apply(QrCode arg0) {
+				return arg0.getLongitude() != null && arg0.getLatitude() != null;
+			}
+		});
+		Iterator<QrCode> it = registeredCodes.iterator();
 		
+		StringBuilder mapUrl = new StringBuilder();
+		if (it.hasNext()) {
+			mapUrl.append("http://maps.google.com/maps/api/staticmap?zoom=15&size=330x230&maptype=roadmap&markers=color:red|");
+			appendPosition(mapUrl, it.next());
+			mapUrl.append("&markers=size:tiny|color:blue");
+			while(it.hasNext()) {
+				mapUrl.append("|");
+				appendPosition(mapUrl, it.next());
+			}
+			mapUrl.append("&mobile=true&sensor=true");
+		}
 		
 		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", presentationCodes, "mapUrl", mapUrl));
 	}
