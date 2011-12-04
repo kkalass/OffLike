@@ -20,7 +20,7 @@ public class BitlyServiceTest {
 		bitlyUrlService = new BitlyUrlService(api_name, api, url);
 	}
 	
-	@Test
+	//@Test
 	public void shortenUrl(){
 		String longUrl = bitlyUrlService.getLongUrl("somelongcode");
 		String shortUrl = bitlyUrlService.getShortUrl(longUrl);
