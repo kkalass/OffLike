@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class QrCodeService {
 
@@ -16,6 +17,7 @@ public class QrCodeService {
 	
 	private final MongoDbService mongoDbService;
 	
+	@Autowired
 	public QrCodeService(MongoDbService mongoDbService) {
 		this.mongoDbService = mongoDbService;
 	}
