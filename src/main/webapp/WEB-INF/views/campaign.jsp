@@ -48,7 +48,13 @@
           <div class="span4">
           <h3>Existing Locations</h3>
             <c:forEach items="${qrcodeList}" var="qrcode">
-              <p><a href="${qrcode.qrCodeImageLink}" class="qrcode btn">Show QRCode</a></p>
+              <div class="qrcode">
+	              <p><a href="${qrcode.qrCodeImageLink}" class=" btn">Show QRCode</a></p>
+	              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
+	 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="450" data-show-faces="true"></div>
+	  
+	              <hr>
+              </div>
             </c:forEach>
             
           </div>

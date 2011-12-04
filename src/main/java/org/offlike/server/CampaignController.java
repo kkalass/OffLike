@@ -13,6 +13,7 @@ import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
 import org.offlike.server.service.MongoDbService;
 import org.offlike.server.service.QrCodeService;
+import org.offlike.server.service.UrlBuilder;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 @Controller
 public class CampaignController {
@@ -125,10 +127,14 @@ public class CampaignController {
 			return errorPage("No campaign with that id!");
 		}
 		List<QrCode> codesForCampaign = dbService.findQrCodesForCampaign(id);
+		List<Map<String, Object>> presentationCodes = new ArrayList<Map<String, Object>>(codesForCampaign.size());
 		for (QrCode code : codesForCampaign){
-			code.setQrCodeImageLink(QrCodeService.createUrl(code, camp).toExternalForm());
+			Map<String, Object> presentationCode = Maps.newHashMap();
+			presentationCode.put("qrCodeImageLink", QrCodeService.createUrl(code, camp).toExternalForm());
+			presentationCode.put("likeUrl", UrlBuilder.createLikeURL(code.getId()));
+			presentationCodes.add(presentationCode);
 		}
-		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", codesForCampaign));
+		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", presentationCodes));
 	}
 
 	@RequestMapping(value="/createQrCodes", method=RequestMethod.POST)
