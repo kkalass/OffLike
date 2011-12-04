@@ -23,9 +23,7 @@
         <div class="row">
           <div class="span10">
             <h2>Create a new Campaign</h2>
-             <p>Please complete all the fields (website not necessary). <br>
-             <span class="label important">VERY IMPORTANT</span> please copy  and save the URL,
-             so you can change your individual campaign later on.</p>
+             <p>Please complete all the fields (website not necessary).</p>
              
             <form action="/createCampaign" method="POST">
               <fieldset>

@@ -28,11 +28,12 @@
 
       <div class="content">
         <div class="page-header">
-          <h1>${campaign.title}<small></small></h1>
+          <span class="label important">VERY IMPORTANT</span> Please copy  and save the URL,
+             so you can change your individual campaign later on.
         </div>
         <div class="row">
           <div class="span10">
-            <h2>Description</h2>
+            <h2>${campaign.title}</h2>
             <p>${campaign.description}</p>
             <p>
             <c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>

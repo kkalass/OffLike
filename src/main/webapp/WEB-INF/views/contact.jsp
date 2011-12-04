@@ -21,7 +21,6 @@
             <p>Please contact RHoK Berlin for more information.</p>
           </div>
           <div class="span4">
-            <h3>Secondary content</h3>
           </div>
         </div>
       </div>

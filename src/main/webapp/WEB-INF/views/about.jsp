@@ -21,7 +21,6 @@
             <p>This website was created for RHoK in Berlin on 3rd - 4th december 2011 </p>
           </div>
           <div class="span4">
-            <h3>Secondary content</h3>
           </div>
         </div>
       </div>
