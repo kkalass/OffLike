@@ -25,9 +25,10 @@ public class LikeController {
 			@RequestParam(value = "lon", required = false) Double lng,
 			@RequestParam(value = "accuracy", required = false) Integer accuracy,
 			@PathVariable("id") String id) {
-
+		System.out.println("like: " + id + ", lat: " + lat + ", lng: " + lng + ", accuracy: " + accuracy);
 		
 		if (lat != null && lng != null && accuracy != null) {
+			System.out.println("will activate qr code");
 			getDbService().activateQrCode(id, lat, lng, accuracy);
 		}
 	

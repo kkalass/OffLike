@@ -59,12 +59,13 @@ public class MongoDbService {
 		DBObject query = new BasicDBObject("_id", new ObjectId(qrCodeId));
 		
 		DBObject found = allQrCodes.findOne(query);
-		
+		System.out.println("found: " + found);
 		found.put("longitude", longitude);
 		found.put("latitude", latitude);
 		found.put("accuracy", acurracy);
 		
 		allQrCodes.update(query, found);
+		System.out.println("updated");
 	}
 
 	public QrCode findQrCodeById(String qrCodeId) {
