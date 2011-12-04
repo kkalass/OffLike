@@ -65,7 +65,9 @@ public class MongoDbService {
 		found.put("accuracy", acurracy);
 		
 		allQrCodes.update(query, found);
-		System.out.println("updated");
+		
+		DBObject newFound = allQrCodes.findOne(query);
+		System.out.println("updated " + newFound);
 	}
 
 	public QrCode findQrCodeById(String qrCodeId) {
