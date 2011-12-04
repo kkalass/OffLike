@@ -141,7 +141,10 @@ public class CampaignController {
 		Iterable<QrCode> registeredCodes = Iterables.filter(codesForCampaign, new Predicate<QrCode>() {
 			@Override
 			public boolean apply(QrCode arg0) {
-				return arg0.getLongitude() != null && arg0.getLatitude() != null;
+				
+				boolean r= arg0.getLongitude() != null && arg0.getLatitude() != null;
+				System.out.println("r: " + r + ",  arg0 "+ arg0);
+			return r;
 			}
 		});
 		Iterator<QrCode> it = registeredCodes.iterator();
