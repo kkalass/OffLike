@@ -3,11 +3,16 @@
 <head><title>OffLike - Likes in the real world </title>
 
 <script type="text/javascript">
-  (function() {
+var console = window['console'] || {'log':function(){}};
+
+console.log("start 1");
+  //(function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/plusone.js';
+    console.log("created script node");
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
+    console.log("start 1");
+  //})();
 </script> 
 
 <body>

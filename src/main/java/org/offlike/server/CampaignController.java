@@ -128,7 +128,7 @@ public class CampaignController {
 
 	@RequestMapping("/qr/{id}")
 	public ModelAndView createQrCodes(@PathVariable("id") String id,
-			@RequestParam("ammount") Integer ammount) {
+			@RequestParam("amount") Integer ammount) {
 
 		ammount = ammount == null ? 1 : ammount;
 		if (!isValidAmmountOfQrCodes(ammount)) {
