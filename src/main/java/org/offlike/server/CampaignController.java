@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 @Controller
@@ -70,7 +71,7 @@ public class CampaignController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/createCampaign", method = { RequestMethod.GET })
+	@RequestMapping(method = { RequestMethod.GET }, value = "/createCampaign")
 	public ModelAndView newCampaign() {
 		return new ModelAndView("createCampaign");
 	}
@@ -91,7 +92,7 @@ public class CampaignController {
 		if (cleanDescription == null) {
 			errorMap.put("description", "Dirty input!");
 		}
-		if (externalLink != null && !isUrlValid(externalLink)) {
+		if (!Strings.isNullOrEmpty(externalLink) && !isUrlValid(externalLink)) {
 			errorMap.put("refererUrl", "Not valid");
 		}
 
@@ -103,11 +104,12 @@ public class CampaignController {
 			campaign.setTitle(cleanTitle);
 
 			dbService.createCampaign(campaign);
-			return getCampaign(campaign.getId());
+			return new ModelAndView("redirect:campaign/"+campaign.getId());
+			//getCampaign(campaign.getId());
 		}
 
 		return new ModelAndView("createCampaign", ImmutableMap.of("errorMap",
-				errorMap));
+				errorMap, "title", title, "description", description, "externalLink", externalLink));
 	}
 
 	@RequestMapping("/campaign/{id}")
@@ -144,7 +146,10 @@ public class CampaignController {
 		
 		List<String> qrCodeList = new ArrayList<String>();
 		for (int i = 0; i < ammount ; i ++){
-			 qrCodeList.add(qrCodeService.generateQrCode(id));
+			final URL url = qrCodeService.generateQrCode(id);
+			if (url != null) {
+				qrCodeList.add(url.toExternalForm());
+			}
 		}
 		
 		
@@ -183,7 +188,9 @@ public class CampaignController {
 	}
 
 	private String cleanUpString(String dirtyInput) {
-
+        if (Strings.isNullOrEmpty(dirtyInput)) {
+        	return null;
+        }
 		AntiSamy as = new AntiSamy();
 		try {
 

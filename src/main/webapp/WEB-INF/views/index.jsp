@@ -19,6 +19,8 @@
         <div class="row">
           <div class="span10">
             <h2>Main content</h2>
+            <p>TODO: description and such</p>
+            <div><a class="btn primary" href="/createCampaign">Create new Campaign</a></div>
           </div>
           <div class="span4">
             <img src="/img/androidphone.png"/>

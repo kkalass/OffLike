@@ -1,26 +1,45 @@
 package org.offlike.server.service;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.imageio.ImageIO;
+import java.net.URLEncoder;
 
 import org.offlike.server.data.Campaign;
+import org.offlike.server.data.QrCode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class QrCodeService {
 
-	private static final String GOOGLE_QR_API_URL = "http://chart.apis.google.com/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=http%3A%2F%2Fofflike.org%2Fcampaign%2F";
-
-	public void generateQrCode(Campaign campaign, String fileName) throws Exception {
-		String generatedCampagneId = "" + campaign.getId();
-		URL url = new URL(GOOGLE_QR_API_URL + generatedCampagneId);
-		BufferedImage read = ImageIO.read(url);
-		ImageIO.write(read, "png", new File(fileName));	
+	private static final String URL_ENCODING = "UTF-8";
+	private static final String GOOGLE_QR_API = "http://chart.apis.google.com/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=";
+	private static final String OFFLIKE_DOMAIN = "http://offlike.org/like/";
+	
+	private final MongoDbService mongoDbService;
+	
+	@Autowired
+	public QrCodeService(MongoDbService mongoDbService) {
+		this.mongoDbService = mongoDbService;
 	}
 	
-	public static void main(String[] args) throws Exception {
-		Campaign campaign = new Campaign();
-		new QrCodeService().generateQrCode(campaign, "qrCode.png");
+	public URL generateQrCode(String campaignId)  {
+		QrCode qrCode = new QrCode();
+		Campaign campaign = mongoDbService.findCampaignById(campaignId);
+		mongoDbService.createQrCode(campaign, qrCode);
+		
+		try {
+			return new URL(GOOGLE_QR_API + parseUrl(qrCode.getId(), campaign.getTitle()));
+		} catch (MalformedURLException e) {
+			return null;
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
+	}
+	
+	protected static String parseUrl(String qrCodeId, String campaignTitle) throws UnsupportedEncodingException {
+		String URLdomain = URLEncoder.encode(OFFLIKE_DOMAIN+qrCodeId,URL_ENCODING);
+		String URLcamapignTitle = URLEncoder.encode(campaignTitle, URL_ENCODING);
+		
+		return URLdomain + "?campaign_name=" + URLcamapignTitle;
 	}
 }
