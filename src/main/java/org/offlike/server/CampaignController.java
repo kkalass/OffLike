@@ -145,9 +145,9 @@ public class CampaignController {
 		}
 		
 		List<String> qrCodeList = new ArrayList<String>();
-		/*for (int i = 0; i < ammount ; i ++){
+		for (int i = 0; i < ammount ; i ++){
 			 qrCodeList.add(qrCodeService.generateQrCode(id));
-		}*/
+		}
 		
 		
 		return new ModelAndView(QR_CODE_PAGE, ImmutableMap.of(CAMPAIGN_FIELD, campaign, QR_CODE_LIST, qrCodeList));
