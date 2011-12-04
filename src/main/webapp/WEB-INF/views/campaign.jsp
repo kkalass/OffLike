@@ -63,7 +63,7 @@
               <div class="qrcode">
 	              <p><a href="${qrcode.qrCodeImageLink}" class=" btn">Show QRCode</a></p>
 	              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
-	 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="450" data-show-faces="true"></div>
+	 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="220" data-show-faces="true"></div>
 	  
 	              <hr>
               </div>
