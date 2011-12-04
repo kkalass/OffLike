@@ -17,7 +17,8 @@
  	<div class="content">
         <div class="row">
           <div class="span10">
-            <h2>Contact</h2>
+            <h2>Contact </h2>
+            <p>Please contact RHoK Berlin for more information.</p>
           </div>
           <div class="span4">
             <h3>Secondary content</h3>
