@@ -32,8 +32,8 @@
             <div><a class="btn primary" href="/createCampaign">Create new Campaign</a></div>
           </div>
           <div class="span4">
-            <img src="/img/androidphone.png"/>
-            <a class="btn" href="https://market.android.com/details?id=org.rhok.offlike&feature=search_result#?t=W251bGwsMSwxLDEsIm9yZy5yaG9rLm9mZmxpa2UiXQ">Get the Android app!</a></p>
+            
+            <a  href="https://market.android.com/details?id=org.rhok.offlike&feature=search_result#?t=W251bGwsMSwxLDEsIm9yZy5yaG9rLm9mZmxpa2UiXQ"><img src="/img/androidphone.png"/></a></p>
           </div>
         </div>
       </div>
