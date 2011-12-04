@@ -14,8 +14,9 @@
 	  fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));</script>
 
-  <h1>Campaign ${campaignName}</h1>
-  <p>Jetzt liken!</p>
+  <h1>Campaign ${campaign.title}</h1>
+  <p>${campaign.description}</p>
+  <p><c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
   <p>
   <g:plusone href="${url}"></g:plusone>
   <div class="fb-like" data-href="${url}" data-send="true" data-width="450" data-show-faces="true"></div>
