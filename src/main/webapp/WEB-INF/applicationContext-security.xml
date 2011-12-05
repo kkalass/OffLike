@@ -11,6 +11,7 @@
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/login.html" access="permitAll"/>
         <intercept-url pattern="/img/**" filters="none" />
+        <intercept-url pattern="/favicon.ico" filters="none" />
         <intercept-url pattern="/css/**" filters="none" />
         <intercept-url pattern="/extra/**" filters="none" />
         <intercept-url pattern="/like/**" access="permitAll"/>
