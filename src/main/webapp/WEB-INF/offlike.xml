@@ -10,6 +10,7 @@
        http://www.springframework.org/schema/task 
        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
   
+	<bean id="userDetailsService" class="org.offlike.server.service.OfflikeUserDetailsService"></bean>
 
 
 </beans>

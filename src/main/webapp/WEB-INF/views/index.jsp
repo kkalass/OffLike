@@ -7,6 +7,7 @@
             <li class="active" ><a href="/">Home</a></li>
             <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
+            <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
           </ul>
          
         </div>

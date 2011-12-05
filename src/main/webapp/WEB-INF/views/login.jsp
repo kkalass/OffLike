@@ -7,7 +7,6 @@
             <li><a href="/">Home</a></li>
             <li class="active"><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
-            <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
           </ul>
          
         </div>
@@ -18,8 +17,12 @@
      <div class="content">
         <div class="row">
           <div class="span10">
-            <h2>About</h2>
-            <p>This website was created for RHoK in Berlin on 3rd - 4th december 2011 </p>
+            <h2>Login</h2>
+            <p></p>
+            <form action="j_spring_openid_security_check" method="post">
+			  <input name="openid_identifier" size="50" maxlength="100" type="hidden" value="https://www.google.com/accounts/o8/id"/>
+			  <input type="submit" value="Sign in with Google"/>
+			</form>
           </div>
           <div class="span4">
           </div>

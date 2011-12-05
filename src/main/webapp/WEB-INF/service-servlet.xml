@@ -17,7 +17,8 @@
 	<mvc:resources mapping="/extra/**" location="/WEB-INF/extra/" /> 
 	<mvc:view-controller path="/about.html" view-name="about" />
 	<mvc:view-controller path="/contact.html" view-name="contact" />
-
+    <mvc:view-controller path="/login.html" view-name="login" />
+    
 	<bean name="/campange" id="debugController" class="org.offlike.server.Controller">
 	</bean>
 
@@ -61,8 +62,7 @@
 	<bean id="dbService" class="org.offlike.server.service.MongoDbService" />
 	<bean class="org.offlike.server.service.QrCodeService" />
 	
-
-
+    
 	<bean id="bitlyManager" class="org.offlike.server.service.BitlyUrlService">
 		<constructor-arg value="joecks" />
 		<constructor-arg value="R_04d0bd3644180040b49b0fdc4398fe5c" />
