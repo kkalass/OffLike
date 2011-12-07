@@ -1,15 +1,28 @@
 package org.offlike.server.data;
 
+import org.joda.time.DateTime;
+
 public class Campaign {
 
 	private String id;
 	private String title;
+	private String ownerUserId;
 	private String description;
 	private String externalLink;
+	
+	private DateTime createdAt;
 
 	public Campaign() {
 	}
 
+	public String getOwnerUserId() {
+		return ownerUserId;
+	}
+	
+	public void setOwnerUserId(String ownerUserId) {
+		this.ownerUserId = ownerUserId;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -42,4 +55,10 @@ public class Campaign {
 		this.title = name;
 	}
 
+	public DateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(DateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 }

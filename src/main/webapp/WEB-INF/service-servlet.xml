@@ -8,7 +8,11 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
-
+	<context:annotation-config />
+	
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+		
     <mvc:annotation-driven/>
 	    
 	<mvc:default-servlet-handler/>
@@ -37,6 +41,7 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
@@ -51,34 +56,5 @@
 
 	<!-- bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" 
 		/ -->
-
-	<!-- TODO: Verschieben in offlike.xml, sobald es dort geht -->
-	<context:annotation-config />
-	<bean id="mongoProvider" class="org.offlike.server.service.MongoProvider">
-	</bean>
-	<bean factory-bean="mongoProvider" factory-method="get" />
-	<bean
-		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-	<bean id="dbService" class="org.offlike.server.service.MongoDbService" />
-	<bean class="org.offlike.server.service.QrCodeService" />
-	
-    
-	<bean id="bitlyManager" class="org.offlike.server.service.BitlyUrlService">
-		<constructor-arg value="joecks" />
-		<constructor-arg value="R_04d0bd3644180040b49b0fdc4398fe5c" />
-		<constructor-arg value="http://offlike.heroku.com/" />
-	</bean>
-
-	<bean id="antisamyFilePathFactory" class="org.springframework.core.io.ClassPathResource">
-		<constructor-arg value="/antisamy-slashdot-1.4.4.xml"></constructor-arg>
-	</bean>
-
-	<bean id="antisamyFilePath" factory-bean="antisamyFilePathFactory"
-		factory-method="getURL"></bean>
-
-	<bean id="owaspPolicy" class="org.owasp.validator.html.Policy"
-		factory-method="getInstance">
-		<constructor-arg ref="antisamyFilePath"></constructor-arg>
-	</bean>
 
 </beans>

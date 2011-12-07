@@ -29,7 +29,7 @@ public class LikeController {
 		
 		if (lat != null && lng != null && accuracy != null) {
 			System.out.println("will activate qr code");
-			getDbService().activateQrCode(id, lat, lng, accuracy);
+			getDbService().activateQrCode(id, lat, lng, accuracy, UserContextHolder.getCurrentUserId());
 		}
 	
 		QrCode qrCode = dbService.findQrCodeById(id);

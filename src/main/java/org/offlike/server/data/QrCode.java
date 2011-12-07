@@ -1,5 +1,7 @@
 package org.offlike.server.data;
 
+import org.joda.time.DateTime;
+
 public class QrCode {
 
 	private String id;
@@ -10,6 +12,10 @@ public class QrCode {
 	private Double longitude;
 	private Integer accuracy;
 
+	private DateTime createdAt;
+	private DateTime registeredAt;
+	private String registeredByUserId;
+	
 	public String getId() {
 		return id;
 	}
@@ -70,4 +76,25 @@ public class QrCode {
 		this.accuracy = accuracy;
 	}
 
+	
+	public DateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(DateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public DateTime getRegisteredAt() {
+		return registeredAt;
+	}
+	public void setRegisteredAt(DateTime registeredAt) {
+		this.registeredAt = registeredAt;
+	}
+	
+	public String getRegisteredByUserId() {
+		return registeredByUserId;
+	}
+	public void setRegisteredByUserId(String registeredByUserId) {
+		this.registeredByUserId = registeredByUserId;
+	}
 }

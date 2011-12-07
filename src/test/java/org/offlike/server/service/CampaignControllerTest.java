@@ -1,19 +1,15 @@
 package org.offlike.server.service;
 
-import static org.junit.Assert.*;
+import static org.offlike.server.CampaignController.CAMPAIGN_PAGE;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.List;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.offlike.server.CampaignController;
-import static org.offlike.server.CampaignController.*;
-import org.offlike.server.data.Campaign;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.springframework.web.servlet.ModelAndView;
