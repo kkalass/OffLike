@@ -6,6 +6,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
+import org.offlike.server.data.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.BasicDBObject;
@@ -14,6 +15,10 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+/**
+ * FIXME Split up monolithic MongoDBService
+ *
+ */
 public class MongoDbService {
 
 	
@@ -30,12 +35,32 @@ public class MongoDbService {
 		return cursor.size();
 	}
 
+
+	public User findUserByUsername(String username) {
+		DBCollection allUsers = database.getCollection("users");
+		DBObject query = new BasicDBObject("username", username);
+
+		DBObject found = allUsers.findOne(query);
+		return createUserFromDbObject(found);
+	}
+
+	public User createUser(String username) {
+		BasicDBObject user = new BasicDBObject();
+		user.put("username", username);
+
+		DBCollection users = database.getCollection("users");
+		users.insert(user);
+
+		String userId =  ((ObjectId) user.get("_id")).toString();
+		return new User(userId, username);
+	}
+	
 	public void createCampaign(Campaign campaign) {
 		BasicDBObject camp = new BasicDBObject();
 		camp.put("title", campaign.getTitle());
 		camp.put("description", campaign.getDescription());
 		camp.put("externalLink", campaign.getExternalLink());
-
+		camp.put("ownerUserId", campaign.getOwnerUserId());
 		DBCollection campaigns = database.getCollection("campaigns");
 		campaigns.insert(camp);
 
@@ -116,6 +141,9 @@ public class MongoDbService {
 		Campaign campaign = new Campaign();
 		campaign.setId(found.get("_id").toString());
 		campaign.setTitle(found.get("title").toString());
+		String ownerUserId = found.containsField("ownerUserId") ? found.get(
+				"ownerUserId").toString() : null;
+		campaign.setOwnerUserId(ownerUserId);
 		String description = found.containsField("description") ? found.get(
 				"description").toString() : null;
 		campaign.setDescription(description);
@@ -124,7 +152,16 @@ public class MongoDbService {
 		campaign.setExternalLink(externalLink);
 		return campaign;
 	}
-
+	
+	private User createUserFromDbObject(DBObject found) {
+		if (found == null) {
+			return null;
+		}
+		String username = found.get("username").toString();
+		String userId = found.get("_id").toString();
+		return new User(userId, username);
+	}
+	
 	private QrCode createQrCodesFromDbObject(DBObject found) {
 		QrCode qrCode = new QrCode();
 		qrCode.setId(found.get("_id").toString());

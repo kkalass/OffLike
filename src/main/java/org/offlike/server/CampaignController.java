@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.offlike.server.data.Campaign;
+import org.offlike.server.data.OfflikeSpringUserDetails;
 import org.offlike.server.data.QrCode;
 import org.offlike.server.service.MongoDbService;
 import org.offlike.server.service.QrCodeService;
@@ -20,6 +21,10 @@ import org.owasp.validator.html.ScanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,10 +70,10 @@ public class CampaignController {
 	public static Logger log = LoggerFactory
 			.getLogger(CampaignController.class);
 
-	@Autowired
+	@Autowired(required=true)
 	private Policy policy;
 
-	@Autowired
+	@Autowired(required=true)
 	private MongoDbService dbService;
 
 	/**
@@ -100,6 +105,10 @@ public class CampaignController {
 		if (!Strings.isNullOrEmpty(externalLink) && !isUrlValid(externalLink)) {
 			errorMap.put("refererUrl", "Not valid");
 		}
+		
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context == null ? null : context.getAuthentication();
+		OfflikeSpringUserDetails userDetails = auth == null ? null : (OfflikeSpringUserDetails) auth.getPrincipal();
 
 		if (errorMap.isEmpty()) {
 
@@ -107,10 +116,12 @@ public class CampaignController {
 			campaign.setDescription(cleanDescription);
 			campaign.setExternalLink(externalLink);
 			campaign.setTitle(cleanTitle);
-
+			
+			if (userDetails != null) {
+				campaign.setOwnerUserId(userDetails.getUserId());
+			}
 			dbService.createCampaign(campaign);
 			return new ModelAndView("redirect:campaign/"+campaign.getId());
-			//getCampaign(campaign.getId());
 		}
 
 		return new ModelAndView("createCampaign", ImmutableMap.of("errorMap",

@@ -4,12 +4,21 @@ public class Campaign {
 
 	private String id;
 	private String title;
+	private String ownerUserId;
 	private String description;
 	private String externalLink;
 
 	public Campaign() {
 	}
 
+	public String getOwnerUserId() {
+		return ownerUserId;
+	}
+	
+	public void setOwnerUserId(String ownerUserId) {
+		this.ownerUserId = ownerUserId;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
