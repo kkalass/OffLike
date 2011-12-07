@@ -2,8 +2,17 @@ package org.offlike.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.offlike.server.data.Campaign;
 import org.offlike.server.data.QrCode;
 import org.offlike.server.data.User;
@@ -21,7 +30,8 @@ import com.mongodb.DBObject;
  */
 public class MongoDbService {
 
-	
+	//private static final DateTimeFormatter f = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
+	private static final DateTimeFormatter f = ISODateTimeFormat.dateTime();
 	private final DB database;
 
 	@Autowired
@@ -29,13 +39,54 @@ public class MongoDbService {
 		this.database = database;
 	}
 
+	
 	public int countCampaigns() {
 		DBCollection allCampaigns = database.getCollection("campaigns");
 		DBCursor cursor = allCampaigns.find();
 		return cursor.size();
 	}
 
+	static String dateTimeToString(DateTime dt) {
+		return dt == null ? null : dt.toString();
+	}
+	
+	static DateTime stringToDateTime(String v) {
+		return v == null ? null : DateTime.parse(v);
+	}
+	
+	private void setDateTime(DBObject obj, String property, DateTime value) {
+		if (value == null) {
+			obj.removeField(property);
+			return;
+		}
+		String stringValue = dateTimeToString(value);
+		obj.put(property, stringValue);
+	}
+	
+	@CheckForNull
+	private DateTime readDateTime(@Nonnull DBObject obj, @Nonnull String property) {
+		if (!obj.containsField(property)){
+			return null;
+		} 
+		String v = obj.get(property).toString();
+		return stringToDateTime(v);
+	}
+	
+	@CheckForNull
+	private String readString(@Nonnull DBObject obj, @Nonnull String property) {
+		return obj.containsField(property) ? obj.get(property).toString() : null;
+	}
 
+	@CheckForNull
+	private Double readDouble(@Nonnull DBObject obj, @Nonnull String property) {
+		return obj.containsField(property) ? (Double)obj.get(property) : null;
+	}
+	
+	@CheckForNull
+	private Integer readInteger(@Nonnull DBObject obj, @Nonnull String property) {
+		return obj.containsField(property) ? (Integer)obj.get(property) : null;
+	}
+	
 	public User findUserByUsername(String username) {
 		DBCollection allUsers = database.getCollection("users");
 		DBObject query = new BasicDBObject("username", username);
@@ -45,19 +96,23 @@ public class MongoDbService {
 	}
 
 	public User createUser(String username) {
+		DateTime createdAt = new DateTime();
 		BasicDBObject user = new BasicDBObject();
 		user.put("username", username);
-
+		setDateTime(user, "createdAt", createdAt);
+		
 		DBCollection users = database.getCollection("users");
 		users.insert(user);
 
 		String userId =  ((ObjectId) user.get("_id")).toString();
-		return new User(userId, username);
+		return new User(userId, username, createdAt);
 	}
 	
 	public void createCampaign(Campaign campaign) {
+		DateTime createdAt = new DateTime();
 		BasicDBObject camp = new BasicDBObject();
 		camp.put("title", campaign.getTitle());
+		setDateTime(camp, "createdAt", createdAt);
 		camp.put("description", campaign.getDescription());
 		camp.put("externalLink", campaign.getExternalLink());
 		camp.put("ownerUserId", campaign.getOwnerUserId());
@@ -68,10 +123,12 @@ public class MongoDbService {
 	}
 
 	public void createQrCode(Campaign campaign, QrCode qrCode) {
+		DateTime createdAt = new DateTime();
 		BasicDBObject dbQrCode = new BasicDBObject();
 		dbQrCode.put("campaignId", campaign.getId());
 		dbQrCode.put("counter", qrCode.getCounter());
-
+		setDateTime(dbQrCode, "createdAt", createdAt);
+		
 		DBCollection dbQrCodes = database.getCollection("qrCodes");
 		dbQrCodes.insert(dbQrCode);
 
@@ -79,15 +136,18 @@ public class MongoDbService {
 	}
 	
 	
-	public void activateQrCode(String qrCodeId, double latitude, double longitude, int acurracy) {
+	public void activateQrCode(String qrCodeId, double latitude, double longitude, int acurracy, String registeredByUserId) {
 		DBCollection allQrCodes = database.getCollection("qrCodes");
 		DBObject query = new BasicDBObject("_id", new ObjectId(qrCodeId));
 		
+		DateTime registeredAt = new DateTime();
 		DBObject found = allQrCodes.findOne(query);
 		System.out.println("found: " + found);
 		found.put("longitude", longitude);
 		found.put("latitude", latitude);
 		found.put("accuracy", acurracy);
+		setDateTime(found, "registeredAt", registeredAt);
+		found.put("registeredBy", registeredByUserId);
 		
 		allQrCodes.update(query, found);
 		
@@ -141,25 +201,21 @@ public class MongoDbService {
 		Campaign campaign = new Campaign();
 		campaign.setId(found.get("_id").toString());
 		campaign.setTitle(found.get("title").toString());
-		String ownerUserId = found.containsField("ownerUserId") ? found.get(
-				"ownerUserId").toString() : null;
-		campaign.setOwnerUserId(ownerUserId);
-		String description = found.containsField("description") ? found.get(
-				"description").toString() : null;
-		campaign.setDescription(description);
-		String externalLink = found.containsField("externalLink") ? found.get(
-				"externalLink").toString() : null;
-		campaign.setExternalLink(externalLink);
+		campaign.setOwnerUserId(readString(found, "ownerUserId"));
+		campaign.setDescription(readString(found, "description"));
+		campaign.setExternalLink(readString(found, "externalLink"));
+		campaign.setCreatedAt(readDateTime(found, "createdAt"));
 		return campaign;
 	}
-	
+
 	private User createUserFromDbObject(DBObject found) {
 		if (found == null) {
 			return null;
 		}
 		String username = found.get("username").toString();
 		String userId = found.get("_id").toString();
-		return new User(userId, username);
+		DateTime createdAt = readDateTime(found, "createdAt");
+		return new User(userId, username, createdAt);
 	}
 	
 	private QrCode createQrCodesFromDbObject(DBObject found) {
@@ -167,18 +223,12 @@ public class MongoDbService {
 		qrCode.setId(found.get("_id").toString());
 		qrCode.setCampaignId(found.get("campaignId").toString());
 		qrCode.setCounter((Integer) found.get("counter"));
-		
-		Double latitude = found.containsField("latitude") ? (Double) found.get(
-				"latitude") : null;
-		qrCode.setLatitude(latitude);
-		
-		Double longitude = found.containsField("longitude") ? (Double) found.get(
-				"longitude") : null;
-		qrCode.setLongitude(longitude);
-		
-		Integer accuracy = found.containsField("accuracy") ? (Integer) found.get(
-				"accuracy") : null;
-		qrCode.setAccuracy(accuracy);
+		qrCode.setLatitude(readDouble(found, "latitude"));
+		qrCode.setLongitude(readDouble(found, "longitude"));
+		qrCode.setAccuracy(readInteger(found, "accuracy"));
+		qrCode.setCreatedAt(readDateTime(found, "createdAt"));
+		qrCode.setRegisteredAt(readDateTime(found, "registeredAt"));
+		qrCode.setRegisteredByUserId(readString(found, "registeredBy"));
 		return qrCode;
 	}
 

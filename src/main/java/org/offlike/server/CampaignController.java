@@ -106,9 +106,7 @@ public class CampaignController {
 			errorMap.put("refererUrl", "Not valid");
 		}
 		
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication auth = context == null ? null : context.getAuthentication();
-		OfflikeSpringUserDetails userDetails = auth == null ? null : (OfflikeSpringUserDetails) auth.getPrincipal();
+		
 
 		if (errorMap.isEmpty()) {
 
@@ -117,9 +115,8 @@ public class CampaignController {
 			campaign.setExternalLink(externalLink);
 			campaign.setTitle(cleanTitle);
 			
-			if (userDetails != null) {
-				campaign.setOwnerUserId(userDetails.getUserId());
-			}
+		    campaign.setOwnerUserId(UserContextHolder.getCurrentUserId());
+		    
 			dbService.createCampaign(campaign);
 			return new ModelAndView("redirect:campaign/"+campaign.getId());
 		}

@@ -1,12 +1,16 @@
 package org.offlike.server.data;
 
+import org.joda.time.DateTime;
+
 public class User {
 
 	private String id;
 	
 	private String username;
 	
-	public User(String id, String username) {
+	private DateTime createdAt;
+	
+	public User(String id, String username, DateTime createdAt) {
 		this.id = id;
 		this.username = username;
 	}
@@ -23,6 +27,10 @@ public class User {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public DateTime getCreatedAt() {
+		return createdAt;
 	}
 	
 }

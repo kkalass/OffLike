@@ -6,7 +6,11 @@ import static org.junit.Assert.assertNotNull;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.bson.types.ObjectId;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.offlike.server.data.Campaign;
@@ -32,6 +36,21 @@ public class MongoDbServiceTest {
 		database = m.getDB("offlike");
 		
 		mongoDbService = new MongoDbService(database);
+	}
+	
+	@Test
+	public void testDateTimeConversion() {
+		testDateTimeConversion(null);
+		testDateTimeConversion(new DateTime());
+		testDateTimeConversion(new DateTime(0));
+		testDateTimeConversion(new DateTime(0).withZone(DateTimeZone.forOffsetHours(3)));
+		testDateTimeConversion(new DateTime(0).withMillisOfSecond(351).withZone(DateTimeZone.forOffsetHours(3)));
+	}
+	
+	private final void testDateTimeConversion(DateTime dt) {
+		String s = MongoDbService.dateTimeToString(dt);
+		DateTime r = MongoDbService.stringToDateTime(s);
+		Assert.assertTrue("Round Trip failed with immediate string: " + s, dt == r || dt.isEqual(r));
 	}
 
 	@Test
@@ -130,7 +149,7 @@ public class MongoDbServiceTest {
 		qrCodes.insert(qrCode);
 		String qrCodeId = qrCode.getString("_id");
 		
-		mongoDbService.activateQrCode(qrCodeId, 12345.67, 98765.43, 10);
+		mongoDbService.activateQrCode(qrCodeId, 12345.67, 98765.43, 10, "4edfd7583004f8372002430c");
 		assertEquals(1, database.getCollection("qrCodes").find().count());
 
 		DBCollection allQrCodes = database.getCollection("qrCodes");
