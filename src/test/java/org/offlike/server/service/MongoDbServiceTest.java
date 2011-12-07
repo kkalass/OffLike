@@ -42,7 +42,7 @@ public class MongoDbServiceTest {
 		campaignWales.setTitle("Save the whales");
 		campaignWales.setDescription("Let us save the whales");
 		campaignWales.setExternalLink("http://...");
-
+        campaignWales.setOwnerUserId("4edfd7583004f8372002430c");
 		mongoDbService.createCampaign(campaignWales);
 		assertEquals(1, mongoDbService.countCampaigns());
 
