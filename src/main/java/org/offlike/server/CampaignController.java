@@ -140,6 +140,12 @@ public class CampaignController {
 			// make attacs harder: do not tell the caller that some id exists, if he is not allowed to see it
 			return errorPage("No campaign with that id!");
 		}
+		
+		// TODO: remove, once all campaigns have updated themselves in production!
+		if (currentUserId != null && Strings.isNullOrEmpty(camp.getOwnerUserId())) {
+			dbService.associateCampaignWithOwnerId(camp.getId(), currentUserId);
+		}
+		
 		List<QrCode> codesForCampaign = dbService.findQrCodesForCampaign(id);
 		List<Map<String, Object>> presentationCodes = new ArrayList<Map<String, Object>>(codesForCampaign.size());
 		for (QrCode code : codesForCampaign){

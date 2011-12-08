@@ -28,8 +28,6 @@ import com.mongodb.DBObject;
  */
 public class MongoDbService {
 
-	//private static final DateTimeFormatter f = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS Z");
-	private static final DateTimeFormatter f = ISODateTimeFormat.dateTime();
 	private final DB database;
 
 	@Autowired
@@ -140,7 +138,6 @@ public class MongoDbService {
 		
 		DateTime registeredAt = new DateTime();
 		DBObject found = allQrCodes.findOne(query);
-		System.out.println("found: " + found);
 		found.put("longitude", longitude);
 		found.put("latitude", latitude);
 		found.put("accuracy", acurracy);
@@ -149,8 +146,6 @@ public class MongoDbService {
 		
 		allQrCodes.update(query, found);
 		
-		DBObject newFound = allQrCodes.findOne(query);
-		System.out.println("updated " + newFound);
 	}
 
 	public QrCode findQrCodeById(String qrCodeId) {
@@ -203,6 +198,18 @@ public class MongoDbService {
 			qrCodes.add(createQrCodesFromDbObject(dbObject));
 		}
 		return qrCodes;
+	}
+
+	public void associateCampaignWithOwnerId(String campaignId, String ownerId) {
+		DBCollection allCampaigns = database.getCollection("campaigns");
+		DBObject query = new BasicDBObject("_id", new ObjectId(campaignId));
+		
+		DBObject found = allCampaigns.findOne(query);
+		
+		found.put("ownerUserId", ownerId);
+		setDateTime(found, "ownerUserIdUpdatedAt", new DateTime());
+		
+		allCampaigns.update(query, found);
 	}
 
 	private Campaign createCampaignFromDbObject(DBObject found) {
