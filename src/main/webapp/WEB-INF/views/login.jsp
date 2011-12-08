@@ -5,8 +5,10 @@
           <a class="brand" href="/"></a>
           <ul class="nav">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="/about.html">About</a></li>
+            <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
+            <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ANONYMOUS')"><li class="active"><a href="/login.html">Login</a></sec:authorize>
           </ul>
          
         </div>
@@ -19,7 +21,7 @@
             <div class="span14">
             </div>
             <div class="span6">
-	            <p>Login via google or yahoo:</p>
+	            <h3>Login via google or yahoo:</h3>
 	            <p>
 		            <form action="j_spring_openid_security_check" class="form-stacked" method="post">
 					  <input name="openid_identifier" size="50" maxlength="100" type="hidden" value="https://www.google.com/accounts/o8/id"/>
@@ -34,7 +36,7 @@
 		    <div class="span2">
 		    </div>
 			<div class="span6">
-				<p> Login using an <a href="http://openid.net/get-an-openid/">OpenID</a>:</p>
+				<h3> Login using an <a href="http://openid.net/get-an-openid/">OpenID</a>:</h3>
 				<form action="j_spring_openid_security_check" class="form-stacked" method="post">
 				<div class="clearfix ">
 				 <fieldset>

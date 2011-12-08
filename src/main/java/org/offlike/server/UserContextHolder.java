@@ -3,6 +3,7 @@ package org.offlike.server;
 import javax.annotation.CheckForNull;
 
 import org.offlike.server.data.OfflikeSpringUserDetails;
+import org.offlike.server.service.OfflikeUserDetailsService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +23,13 @@ public final class UserContextHolder {
 	public static String getCurrentUserId() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication auth = context == null ? null : context.getAuthentication();
-		OfflikeSpringUserDetails userDetails = auth == null ? null : (OfflikeSpringUserDetails) auth.getPrincipal();
-		return userDetails == null ? null : userDetails.getUserId();
+		
+		if (auth != null && auth.getAuthorities().contains(OfflikeUserDetailsService.USER_AUTHORITY)) {
+			Object principal = auth.getPrincipal();
+			OfflikeSpringUserDetails userDetails = auth == null ? null : (OfflikeSpringUserDetails) principal;
+			return userDetails == null ? null : userDetails.getUserId();
+		}
+		return null;
 	}
+	
 }

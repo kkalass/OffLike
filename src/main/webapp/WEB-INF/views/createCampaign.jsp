@@ -9,6 +9,7 @@
             <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
             <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ANONYMOUS')"><li><a href="/login.html">Login</a></sec:authorize>
           </ul>
          
         </div>
@@ -19,12 +20,11 @@
 
       <div class="content">
         <div class="page-header">
-          <h1>Campaign <small></small></h1>
+          <h1>Create a new Campaign</h1>
         </div>
         <div class="row">
           <div class="span10">
-            <h2>Create a new Campaign</h2>
-             <p>Please complete all the fields (website not necessary).</p>
+             <p class="ol-large">Please complete all the fields (website not necessary).</p>
              
             <form action="/createCampaign" method="POST">
               <fieldset>
@@ -42,11 +42,11 @@
 		              <span class="help-inline">${errorMap.description}</span>
 		            </div>
 		          </div>
-		          <div class="clearfix <c:if test="${errorMap.refererUrl}" >error</c:if>">
+		          <div class="clearfix <c:if test="${errorMap.externalLink}" >error</c:if>">
 		            <label for="title">Website</label>
 		            <div class="input">
-		              <input class="xlarge <c:if test="${errorMap.refererUrl}" >error</c:if>" id="externalLink" value="${externalLink}" name="externalLink" size="30" type="text">
-		              <span class="help-inline">${errorMap.refererUrl}</span>
+		              <input class="xlarge <c:if test="${errorMap.externalLink}" >error</c:if>" id="externalLink" value="${externalLink}" name="externalLink" size="30" type="text">
+		              <span class="help-inline">${errorMap.externalLink}</span>
 		            </div>
 		          </div>
 		          

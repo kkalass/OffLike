@@ -1,16 +1,14 @@
 package org.offlike.server.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.offlike.server.data.Campaign;
@@ -164,10 +162,14 @@ public class MongoDbService {
 	}
 
 	public List<Campaign> findAllCampaigns() {
-		ArrayList<Campaign> allCampaigns = new ArrayList<Campaign>();
 
 		DBCollection dbCampaigns = database.getCollection("campaigns");
-		DBCursor cursor = dbCampaigns.find();
+		return createCampaignsFromDBObjects(dbCampaigns.find());
+	}
+
+
+	private List<Campaign> createCampaignsFromDBObjects(DBCursor cursor) {
+		ArrayList<Campaign> allCampaigns = new ArrayList<Campaign>();
 		while (cursor.hasNext()) {
 			DBObject dbObject = (DBObject) cursor.next();
 			Campaign campaign = createCampaignFromDbObject(dbObject);
@@ -182,6 +184,12 @@ public class MongoDbService {
 
 		DBObject found = allCampaigns.findOne(query);
 		return createCampaignFromDbObject(found);
+	}
+
+
+	public Collection<Campaign> findCampaignsByOwnerId(String ownerId) {
+		DBCollection allCampaigns = database.getCollection("campaigns");
+		return createCampaignsFromDBObjects(allCampaigns.find(new BasicDBObject("ownerUserId", ownerId)));
 	}
 
 	public List<QrCode> findQrCodesForCampaign(String campaignId) {

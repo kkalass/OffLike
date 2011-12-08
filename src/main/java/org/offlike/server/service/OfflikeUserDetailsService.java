@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.google.common.collect.ImmutableList;
 
 public class OfflikeUserDetailsService implements UserDetailsService {
-
+	public static GrantedAuthority USER_AUTHORITY = new GrantedAuthorityImpl("USER_ROLE");
 	private MongoDbService _dbService;
 	
 	@Autowired
@@ -30,7 +30,7 @@ public class OfflikeUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			user = _dbService.createUser(username);
 		}
-		return new OfflikeSpringUserDetails(user, username, new Random().nextDouble() + "", true, true, true, true, ImmutableList.<GrantedAuthority>of(new GrantedAuthorityImpl("USER_ROLE")));
+		return new OfflikeSpringUserDetails(user, username, new Random().nextDouble() + "", true, true, true, true, ImmutableList.<GrantedAuthority>of(USER_AUTHORITY));
 	}
 	
 }

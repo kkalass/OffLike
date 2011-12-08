@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.offlike.server.data.Campaign;
-import org.offlike.server.data.OfflikeSpringUserDetails;
 import org.offlike.server.data.QrCode;
 import org.offlike.server.service.MongoDbService;
 import org.offlike.server.service.QrCodeService;
@@ -21,10 +20,6 @@ import org.owasp.validator.html.ScanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
@@ -103,10 +99,10 @@ public class CampaignController {
 			errorMap.put("description", "Dirty input!");
 		}
 		if (!Strings.isNullOrEmpty(externalLink) && !isUrlValid(externalLink)) {
-			errorMap.put("refererUrl", "Not valid");
+			errorMap.put("externalLink", "Not valid");
 		}
 		
-		
+		String currentUserId = UserContextHolder.getCurrentUserId();
 
 		if (errorMap.isEmpty()) {
 
@@ -115,7 +111,7 @@ public class CampaignController {
 			campaign.setExternalLink(externalLink);
 			campaign.setTitle(cleanTitle);
 			
-		    campaign.setOwnerUserId(UserContextHolder.getCurrentUserId());
+			campaign.setOwnerUserId(currentUserId);
 		    
 			dbService.createCampaign(campaign);
 			return new ModelAndView("redirect:campaign/"+campaign.getId());
@@ -133,7 +129,9 @@ public class CampaignController {
 
 		Campaign camp = dbService.findCampaignById(id);
 
-		if (camp == null) {
+		String currentUserId = UserContextHolder.getCurrentUserId();
+		if (camp == null || !mayViewCampaignDetails(camp, currentUserId)) {
+			// make attacs harder: do not tell the caller that some id exists, if he is not allowed to see it
 			return errorPage("No campaign with that id!");
 		}
 		List<QrCode> codesForCampaign = dbService.findQrCodesForCampaign(id);
@@ -157,23 +155,42 @@ public class CampaignController {
 			}
 		}));
 		System.out.println("registered codes: " + registeredCodes);
-		Iterator<QrCode> it = registeredCodes.iterator();
 		
-		StringBuilder mapUrl = new StringBuilder();
-		if (it.hasNext()) {
-			mapUrl.append("http://maps.google.com/maps/api/staticmap?zoom=15&size=330x230&maptype=roadmap&markers=color:red|");
-			appendPosition(mapUrl, it.next());
-			mapUrl.append("&markers=size:tiny|color:blue");
-			while(it.hasNext()) {
-				mapUrl.append("|");
-				appendPosition(mapUrl, it.next());
-			}
-			mapUrl.append("&mobile=true&sensor=true");
+		
+		String mapUrl = createMapUrl(registeredCodes);
+		ImmutableMap.Builder<String, Object> result = ImmutableMap.builder();
+		result.put("campaign", camp);
+		result.put("qrcodeList", presentationCodes);
+		if (mapUrl != null) {
+			result.put("mapUrl", mapUrl);
 		}
-		
-		return new ModelAndView("campaign", ImmutableMap.of("campaign", camp, "qrcodeList", presentationCodes, "mapUrl", mapUrl));
+		return new ModelAndView("campaign", result.build());
 	}
 
+	private String createMapUrl(Iterable<QrCode> registeredCodes) {
+		Iterator<QrCode> it = registeredCodes.iterator();
+		StringBuilder mapUrlBuilder = new StringBuilder();
+		if (it.hasNext()) {
+			mapUrlBuilder.append("http://maps.google.com/maps/api/staticmap?zoom=15&size=330x230&maptype=roadmap&markers=color:red|");
+			appendPosition(mapUrlBuilder, it.next());
+			mapUrlBuilder.append("&markers=size:tiny|color:blue");
+			while(it.hasNext()) {
+				mapUrlBuilder.append("|");
+				appendPosition(mapUrlBuilder, it.next());
+			}
+			mapUrlBuilder.append("&mobile=true&sensor=true");
+		}
+		return mapUrlBuilder.length() == 0 ? null : mapUrlBuilder.toString();
+	}
+
+	private boolean mayViewCampaignDetails(Campaign camp, String currentUserId) {
+		return mayEditCampaignDetails(camp, currentUserId);
+	}
+	private boolean mayEditCampaignDetails(Campaign camp, String currentUserId) {
+		return (camp.getOwnerUserId() == null && currentUserId != null) || Objects.equal(camp.getOwnerUserId(), currentUserId);
+	}
+
+	
 	private void appendPosition(StringBuilder mapUrl, QrCode next) {
 		mapUrl.append(next.getLatitude()).append(",").append(next.getLongitude());
 	}

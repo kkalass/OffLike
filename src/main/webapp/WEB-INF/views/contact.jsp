@@ -8,6 +8,7 @@
             <li><a href="/about.html">About</a></li>
             <li class="active"><a href="/contact.html">Contact</a></li>
             <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ANONYMOUS')"><li><a href="/login.html">Login</a></sec:authorize>
           </ul>
          
         </div>

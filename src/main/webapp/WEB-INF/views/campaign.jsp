@@ -15,10 +15,10 @@
           <a class="brand" href="/"></a>
           <ul class="nav">
             <li><a href="/">Home</a></li>
-            <li class="active"><a href="#">Campaign</a></li>
             <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
             <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ANONYMOUS')"><li><a href="/login.html">Login</a></sec:authorize>
           </ul>
          
         </div>
@@ -28,19 +28,29 @@
     <div class="container">
 
       <div class="content">
-        <div class="page-header">
-          <span class="label important">VERY IMPORTANT</span> Please copy  and save the URL,
-             so you can change your individual campaign later on.
-        </div>
+        <ul class="breadcrumb">
+			  <li><a href="/">My Campaigns</a> <span class="divider">/</span></li>
+			  <li class="active">${campaign.title}</li>
+			</ul>
         <div class="row">
-          <div class="span10">
-            <h2>${campaign.title}</h2>
+          <div class="span8">
+          <h2>${campaign.title}</h2>
+            <h3>Campaign Description</h3>
             <p>${campaign.description}</p>
             <p>
-            <c:if test="${campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
+            <c:if test="${not empty campaign.externalLink}"><a href="${campaign.externalLink}">${campaign.externalLink}</a></c:if></p>
             
-            <div><img src="${mapUrl}" border=0></div>
+            <c:if test="${not empty mapUrl}">
+              <div><img src="${mapUrl}" border=0></div>
+            </c:if>
             <h3>Create new QR Codes</h3>
+            <p>Generate and print one QR Code for every location where you want people to be able to like your campaign.<p>
+            <ol>
+              <li>Print your QR Codes</li>
+              <li>Stick them on your Posters</li>
+              <li>Bring your Posters to their final location and put them up</li>
+              <li>Use our Android App to scan the QR Code, making sure that your GPS is working so that the poster can be associated by the android application with the location where it was put up</li>
+            </ol>
             <form action="/createQrCodes" method="POST">
               <fieldset>
                   <input type="hidden" name="campaignid" value="${campaign.id}">
@@ -59,17 +69,22 @@
 	          </fieldset>
             </form>
           </div>
-          <div class="span4">
+          <div class="span6">
           <h3>Existing Locations</h3>
-            <c:forEach items="${qrcodeList}" var="qrcode">
-              <div class="qrcode">
-	              <p><a href="${qrcode.qrCodeImageLink}" class=" btn">Show QRCode</a></p>
-	              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
-	 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="220" data-show-faces="true"></div>
-	  
-	              <hr>
-              </div>
-            </c:forEach>
+            <c:if test="${empty qrcodeList}">
+				<p>Once you have generated QR Codes, they will be shown here.</p>
+            </c:if>
+            <c:if test="${not empty qrcodeList}">
+	            <c:forEach items="${qrcodeList}" var="qrcode">
+	              <div class="qrcode">
+		              <p><a href="${qrcode.qrCodeImageLink}" class=" btn">Show QRCode</a></p>
+		              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
+		 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="200" data-show-faces="true"></div>
+		  
+		              <hr>
+	              </div>
+	            </c:forEach>
+            </c:if>
             
           </div>
         </div>

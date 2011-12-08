@@ -1,19 +1,29 @@
 package org.offlike.server;
 
-import org.joda.time.DateTime;
+import java.util.Collection;
+
 import org.offlike.server.data.Campaign;
+import org.offlike.server.service.MongoDbService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 @org.springframework.stereotype.Controller
 public class Controller {
 
+	@Autowired
+	private MongoDbService _dbService;
+	
 	@RequestMapping("/")
 	public ModelAndView hello(){
-		return new ModelAndView("index",  ImmutableMap.<String, Object>of("name", "Test User", "Datum", new DateTime()));
+		String currentUserId = UserContextHolder.getCurrentUserId();
+		Collection<Campaign> campaigns = currentUserId == null ? ImmutableList.<Campaign>of() : _dbService.findCampaignsByOwnerId(currentUserId);
+		
+		return new ModelAndView("index",  ImmutableMap.<String, Object>of("campaigns", campaigns));
 	}
 	
 	@RequestMapping("/test.json")
