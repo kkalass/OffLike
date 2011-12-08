@@ -55,10 +55,10 @@
               <fieldset>
                   <input type="hidden" name="campaignid" value="${campaign.id}">
                   
-		          <div class="clearfix <c:if test="${errorMap.numberOfCodes}" >error</c:if>">
+		          <div class="clearfix <c:if test="${not empty errorMap.numberOfCodes}" >error</c:if>">
 		            <label for="title">Number of Codes</label>
 		            <div class="input">
-		              <input class="xlarge <c:if test="${errorMap.numberOfCodes}" >error</c:if>" id="numberOfCodes" name="numberOfCodes" value="${numberOfCodes}" size="30" type="text">
+		              <input class="xlarge <c:if test="${not empty errorMap.numberOfCodes}" >error</c:if>" id="numberOfCodes" name="numberOfCodes" value="${numberOfCodes}" size="30" type="number">
 		              <span class="help-inline">${errorMap.numberOfCodes}</span>
 		            </div>
 		          </div>

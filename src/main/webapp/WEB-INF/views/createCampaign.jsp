@@ -19,33 +19,31 @@
     <div class="container">
 
       <div class="content">
-        <div class="page-header">
-          <h1>Create a new Campaign</h1>
-        </div>
         <div class="row">
           <div class="span10">
+        <h2>Create a new Campaign</h2>
              <p class="ol-large">Please complete all the fields (website not necessary).</p>
              
             <form action="/createCampaign" method="POST">
               <fieldset>
-		          <div class="clearfix <c:if test="${errorMap.title}" >error</c:if>">
+		          <div class="clearfix <c:if test="${not empty errorMap.title}" >error</c:if>">
 		            <label for="title">Titel</label>
 		            <div class="input">
-		              <input class="xlarge <c:if test="${errorMap.title}" >error</c:if>" id="title" name="title" value="${title}" size="30" type="text">
+		              <input class="xlarge <c:if test="${not empty errorMap.title}" >error</c:if>" id="title" name="title" value="${title}" size="30" type="text">
 		              <span class="help-inline">${errorMap.title}</span>
 		            </div>
 		          </div>
-		          <div class="clearfix <c:if test="${errorMap.description}" >error</c:if>">
+		          <div class="clearfix <c:if test="${not empty errorMap.description}" >error</c:if>">
 		            <label for="description">Description</label>
 		            <div class="input">
-		              <textarea class="xlarge <c:if test="${errorMap.description}" >error</c:if>" id="description" name="description" rows="5">${description}</textarea>
+		              <textarea class="xlarge <c:if test="${not empty errorMap.description}" >error</c:if>" id="description" name="description" rows="5">${description}</textarea>
 		              <span class="help-inline">${errorMap.description}</span>
 		            </div>
 		          </div>
-		          <div class="clearfix <c:if test="${errorMap.externalLink}" >error</c:if>">
+		          <div class="clearfix <c:if test="${not empty errorMap.externalLink}" >error</c:if>">
 		            <label for="title">Website</label>
 		            <div class="input">
-		              <input class="xlarge <c:if test="${errorMap.externalLink}" >error</c:if>" id="externalLink" value="${externalLink}" name="externalLink" size="30" type="text">
+		              <input class="xlarge <c:if test="${not empty errorMap.externalLink}" >error</c:if>" id="externalLink" value="${externalLink}" name="externalLink" size="30" type="text">
 		              <span class="help-inline">${errorMap.externalLink}</span>
 		            </div>
 		          </div>

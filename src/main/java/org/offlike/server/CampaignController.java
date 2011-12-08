@@ -90,13 +90,19 @@ public class CampaignController {
 
 		Map<String, String> errorMap = new HashMap<String, String>();
 
+		if (Strings.isNullOrEmpty(title)) {
+			errorMap.put("title", "Mandatory");
+		}
 		String cleanTitle = cleanUpString(title);
-		if (cleanTitle == null) {
-			errorMap.put("title", "Dirty input!");
+		if (!Strings.isNullOrEmpty(title) && cleanTitle == null) {
+			errorMap.put("title", "Not valid");
+		}
+		if (Strings.isNullOrEmpty(description)) {
+			errorMap.put("description", "Mandatory");
 		}
 		String cleanDescription = cleanUpString(description);
-		if (cleanDescription == null) {
-			errorMap.put("description", "Dirty input!");
+		if (!Strings.isNullOrEmpty(description) && cleanDescription == null) {
+			errorMap.put("description", "Not valid");
 		}
 		if (!Strings.isNullOrEmpty(externalLink) && !isUrlValid(externalLink)) {
 			errorMap.put("externalLink", "Not valid");
