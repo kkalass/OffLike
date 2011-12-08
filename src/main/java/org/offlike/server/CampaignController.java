@@ -223,9 +223,12 @@ public class CampaignController {
 
 		
 		Campaign campaign = dbService.findCampaignById(id);
-		if (campaign==null){
-			return errorPage("Unknown campaign id!");
+		String currentUserId = UserContextHolder.getCurrentUserId();
+		if (campaign == null || !mayViewCampaignDetails(campaign, currentUserId)) {
+			// make attacs harder: do not tell the caller that some id exists, if he is not allowed to see it
+			return errorPage("No campaign with that id!");
 		}
+		
 		
 		if (errorMap.isEmpty()) {
 			List<String> qrCodeList = new ArrayList<String>();
