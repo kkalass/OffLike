@@ -89,4 +89,25 @@ p.ol-large{
    height: 19px;
    width: 90px;
 }
-      
+
+.likepage .container {
+	width:100%
+	
+}
+.likepage .topbar {
+   position: absolute;
+}
+.likepage .topbar .container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.likepage .topbar p, .likepage .topbar h2, .likepage .topbar h3 {
+	color: white;
+}
+.likepage .container .content {
+	margin:auto;
+}
+ .likepage .container .content .span10{
+	width:auto;
+	min-height:10px;
+}     
