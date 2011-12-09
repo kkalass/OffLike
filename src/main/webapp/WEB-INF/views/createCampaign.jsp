@@ -24,7 +24,7 @@
         <h2>Create a new Campaign</h2>
              <p class="ol-large">Please complete all the fields (website not necessary).</p>
              
-            <form action="/createCampaign" method="POST">
+            <form action="/createCampaign" method="POST" accept-charset="UTF-8">
               <fieldset>
 		          <div class="clearfix <c:if test="${not empty errorMap.title}" >error</c:if>">
 		            <label for="title">Titel</label>
