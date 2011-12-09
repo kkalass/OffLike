@@ -1,7 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head><title>OffLike - Likes in the real world </title>
-<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 
 </head>
 <body>
