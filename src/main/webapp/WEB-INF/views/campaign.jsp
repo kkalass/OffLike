@@ -49,7 +49,7 @@
               <li>Print your QR Codes</li>
               <li>Stick them on your Posters</li>
               <li>Bring your Posters to their final location and put them up</li>
-              <li>Use our Android App to scan the QR Code, making sure that your GPS is working so that the poster can be associated by the android application with the location where it was put up</li>
+              <li>Register the QR Code: use our Android App to scan the QR Code, making sure that your GPS is working so that the poster can be associated by the android application with the location where it was put up</li>
             </ol>
             <form action="/createQrCodes" method="POST">
               <fieldset>
@@ -75,15 +75,19 @@
 				<p>Once you have generated QR Codes, they will be shown here.</p>
             </c:if>
             <c:if test="${not empty qrcodeList}">
+              <ul>
 	            <c:forEach items="${qrcodeList}" var="qrcode">
-	              <div class="qrcode">
-		              <p><a href="${qrcode.qrCodeImageLink}" class=" btn">Show QRCode</a></p>
-		              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
-		 			 <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="true" data-width="200" data-show-faces="true"></div>
-		  
-		              <hr>
-	              </div>
+	            <li class="qrcode">
+		            <div><c:if test="${not qrcode.activated}"><span class="label warning">Warning</span> No Location registered yet </c:if> </div>
+		              <div><a href="${qrcode.qrCodeImageLink}" target="_blank">QR-Code</a> | <a href="${qrcode.likeUrl}" target="_blank">Location-Page</a></div>
+		              <div>
+			              <div class="fb-like" data-href="${qrcode.likeUrl}" data-send="false" data-layout="button_count" data-width="90" data-show-faces="true"></div>
+			              <g:plusone href="${qrcode.likeUrl}"></g:plusone>
+		              </div>
+		              <br>
+	              </li>
 	            </c:forEach>
+	            </ul>
             </c:if>
             
           </div>

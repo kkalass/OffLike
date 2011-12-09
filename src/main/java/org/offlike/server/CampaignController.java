@@ -152,6 +152,7 @@ public class CampaignController {
 			Map<String, Object> presentationCode = Maps.newHashMap();
 			presentationCode.put("qrCodeImageLink", QrCodeService.createUrl(code, camp).toExternalForm());
 			presentationCode.put("likeUrl", UrlBuilder.createLikeURL(code.getId()));
+			presentationCode.put("activated", code.isActivated());
 			presentationCodes.add(presentationCode);
 		}
 		

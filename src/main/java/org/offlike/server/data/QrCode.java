@@ -97,4 +97,8 @@ public class QrCode {
 	public void setRegisteredByUserId(String registeredByUserId) {
 		this.registeredByUserId = registeredByUserId;
 	}
+	
+	public boolean isActivated() {
+		return longitude != null && latitude != null;
+	}
 }

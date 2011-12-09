@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 
 @Controller
@@ -43,7 +44,8 @@ public class LikeController {
 		
 		return new ModelAndView("like", ImmutableMap.<String, Object> of(
 				"campaign", campaign,
-				"url", UrlBuilder.createLikeURL(id)));
+				"url", UrlBuilder.createLikeURL(id),
+				"fbAdmins", Strings.nullToEmpty(System.getenv("FB_ADMIN"))));
 	}
 
 	private ModelAndView errorPage(String error) {
