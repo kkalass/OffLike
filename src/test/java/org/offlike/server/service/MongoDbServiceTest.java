@@ -30,7 +30,7 @@ public class MongoDbServiceTest {
 
 	@Before
 	public void setup() throws UnknownHostException, MongoException {
-		Mongo m = new Mongo("localhost", 27017);
+		Mongo m = new Mongo("127.0.0.1", 27017);
 		database = m.getDB("offlike");
 		database.dropDatabase();
 		database = m.getDB("offlike");

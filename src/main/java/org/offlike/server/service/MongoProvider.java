@@ -8,7 +8,7 @@ import com.mongodb.Mongo;
 
 public class MongoProvider {
 	
-	private String hostname = getProperty("mongodb.hostname", "MONGODB_HOSTNAME", "localhost");
+	private String hostname = getProperty("mongodb.hostname", "MONGODB_HOSTNAME", "127.0.0.1");
 	private int port = Integer.parseInt(getProperty("mongodb.port", "MONGODB_PORT", "27017"));
 	private String dbname = getProperty("mongodb.dbname", "MONGODB_DBNAME", "offlike");
 	private String username = getProperty("mongodb.username", "MONGODB_USERNAME");

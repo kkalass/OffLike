@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "urlrewrite3.0.dtd">
+<urlrewrite default-match-type="wildcard">
+	<rule>
+		<name>Domain Name Check</name>
+		<condition name="host" operator="notequal">offlike.org</condition>
+		<from>^(.*)$</from>
+		<to type="redirect">http://offlike.org/$1</to>
+	</rule>
+</urlrewrite>
