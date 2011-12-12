@@ -4,8 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 public class UrlBuilder {
-	private static final String OFFLIKE_DOMAIN = "http://offlike.herokuapp.com/like/";
+	
+	private static final String OFFLIKE_DOMAIN = "http://offlike.org/like/";
 	private static final String URL_ENCODING = "UTF-8";
+	
 	
 
 	public static String createLikeURLWithContentHints(String qrCodeId, String campaignTitle)  {
