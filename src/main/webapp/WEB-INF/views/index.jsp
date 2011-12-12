@@ -36,10 +36,10 @@
             
           <sec:authorize access="hasRole('USER_ROLE')">
             <div>
-            <h2>A Real-World "Like" for Campaigning and Advocacy</h2>
-            <br>
+            <!--h2>A Real-World "Like" for Campaigning and Advocacy</h2>
+            <br-->
             <c:if test="${not empty campaigns}">
-	            <h3>My Campaigns</h3>
+	            <h2>My Campaigns</h2>
 	            <table border=0 class="zebra-striped bordered-table">
 	                <tr><th>Title</th><th>External Link</th></tr>
 	                <c:forEach items="${campaigns}" var="campaign">
@@ -48,7 +48,7 @@
 	            </table>
 	         </c:if>
             <c:if test="${empty campaigns}">
-	            <h3>Welcome!</h3>
+	            <h2>Welcome!</h2>
 	           <p>How it works: </p>
 	           <ul>
 	             <li>First you create a new campaign</li>
