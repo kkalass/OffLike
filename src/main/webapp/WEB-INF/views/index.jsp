@@ -40,12 +40,14 @@
             <br-->
             <c:if test="${not empty campaigns}">
 	            <h2>My Campaigns</h2>
+	            <p>
 	            <table border=0 class="zebra-striped bordered-table">
 	                <tr><th>Title</th><th>External Link</th></tr>
 	                <c:forEach items="${campaigns}" var="campaign">
 		              <tr><td><a href="/campaign/${campaign.id}">${campaign.title}</a></td><td><a href="${campaign.externalLink}">${campaign.externalLink}</a></td></td>
 				    </c:forEach>
 	            </table>
+	            </p>
 	         </c:if>
             <c:if test="${empty campaigns}">
 	            <h2>Welcome!</h2>

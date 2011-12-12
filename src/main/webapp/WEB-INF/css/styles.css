@@ -75,11 +75,11 @@ h2 {
 
    font-size: 32px;
    line-height: 36px;
-
+   margin-bottom: 18px;
 }
 
 p.ol-large{
-	margin-top: 38px;
+	margin-top: 20px;
 	font-size: 16px;
 	line-height: 20px;
 }
