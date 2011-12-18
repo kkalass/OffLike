@@ -30,6 +30,28 @@
 	  })();
 	
 	</script>
-  </head>
+<script type="text/javascript">
+reformal_wdg_w    = "713";
+reformal_wdg_h    = "460";
+reformal_wdg_domain    = "offlike";
+reformal_wdg_mode    = 0;
+reformal_wdg_title   = "Off Like";
+reformal_wdg_ltitle  = "Leave feedback";
+reformal_wdg_lfont   = "";
+reformal_wdg_lsize   = "";
+reformal_wdg_color   = "#1b5e87";
+reformal_wdg_bcolor  = "#1b5e87";
+reformal_wdg_tcolor  = "#FFFFFF";
+reformal_wdg_align   = "left";
+reformal_wdg_waction = 0;
+reformal_wdg_vcolor  = "#9FCE54";
+reformal_wdg_cmline  = "#E0E0E0";
+reformal_wdg_glcolor  = "#105895";
+reformal_wdg_tbcolor  = "#FFFFFF";
+ 
+reformal_wdg_bimage = "8489db229aa0a66ab6b80ebbe0bb26cd.png";
+ 
+</script>
 
-  <body>
+<script type="text/javascript" language="JavaScript" src="http://idea.informer.com/tabn2v4.js?domain=offlike"></script><noscript><a href="http://offlike.idea.informer.com">Off Like feedback</a> <a href="http://idea.informer.com"> Powered by <img src="http://widget.idea.informer.com/tmpl/images/widget_logo.jpg" /></a></noscript>
+<body>
