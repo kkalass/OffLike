@@ -14,7 +14,7 @@
         <div class="container">
           <a class="brand" href="/"></a>
           <ul class="nav">
-            <li><a href="/">Home</a></li>
+            <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/">My Overview</a></li></sec:authorize>
             <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
             <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
@@ -29,7 +29,7 @@
 
       <div class="content">
         <ul class="breadcrumb">
-			  <li><a href="/">My Campaigns</a> <span class="divider">/</span></li>
+			  <li><a href="/">My Overview</a> <span class="divider">/</span></li>
 			  <li class="active">${campaign.title}</li>
 			</ul>
         <div class="row">

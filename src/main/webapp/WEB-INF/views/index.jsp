@@ -4,7 +4,7 @@
         <div class="container">
           <a class="brand" href="/"></a>
           <ul class="nav">
-            <li class="active" ><a href="/">Home</a></li>
+            <sec:authorize access="hasRole('USER_ROLE')"><li  class="active"><a href="/">My Overview</a></li></sec:authorize>
             <li><a href="/about.html">About</a></li>
             <li><a href="/contact.html">Contact</a></li>
             <sec:authorize access="hasRole('USER_ROLE')"><li><a href="/j_spring_security_logout">Logout</a></sec:authorize>
@@ -36,10 +36,9 @@
             
           <sec:authorize access="hasRole('USER_ROLE')">
             <div>
-            <!--h2>A Real-World "Like" for Campaigning and Advocacy</h2>
-            <br-->
+            
+            <h2>My Campaigns</h2>
             <c:if test="${not empty campaigns}">
-	            <h2>My Campaigns</h2>
 	            <p>
 	            <table border=0 class="zebra-striped bordered-table">
 	                <tr><th>Title</th><th>External Link</th></tr>
@@ -50,8 +49,7 @@
 	            </p>
 	         </c:if>
             <c:if test="${empty campaigns}">
-	            <h2>Welcome!</h2>
-	           <p>How it works: </p>
+	           <p>Here you will get an overview of your campaigns, and this is how it works: </p>
 	           <ul>
 	             <li>First you create a new campaign</li>
 	             <li>Entering a title, description and the amount of QR codes you need</li>
