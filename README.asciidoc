@@ -1,4 +1,4 @@
-==== Goal ====
+= Goal =
 
 Supporting  things globally online is very easy and popular at the moment. There  are Systems like Google+1;FaceBook Like and Flatter - to just name 3.  Offlike  aims to extend this pattern to local "offline" things. By placing  QR-Codes ( or later NFC ) on real places with real problems - and giving  the user the option to support this thing we hope to increase  involvement with problems that matter for you - localy - offline . 
 Why we are working on this problem: 
@@ -10,27 +10,29 @@ We created a website, an app and mobile-site. All these there tools are necessar
 
 The campaign owner can create QR codes and check statistics on the amount of views and likes. Also there is a map so he can check where the QR codes are used. The app or the mobile site, provide an easy way show their support. By scanning the QR code the supporter can easily like the campaign with the usual social share buttons.
 
-==== Installation ====
+= Installation =
 
 Installation requirements:
-- Java 6
-- Maven
-- MongoDB
+* Java 6
+* Maven
+* MongoDB
 
 Setup:
-- checkout this project
-- mongodb needs to be run
-- database settings may be set by environment variables. Take a look into file  'org.offlike.server.service.MongoProvider.java'
-- switch to your working directory
-- call 'mvn install'
+* checkout this project
+* mongodb needs to be run
+* database settings may be set by environment variables. Take a look into file  'org.offlike.server.service.MongoProvider.java'
+* switch to your working directory
+* call 'mvn install'
 
 Run:
-- start the Webserver with ./start-server  
-- go to 'http://localhost:8080' and manage your campaigns
-- Use the Andoid-App to scan the QR-Codes: https://github.com/ligi/offlike_android_frontend
+* start the Webserver with ./start-server  
+* go to 'http://localhost:8080' and manage your campaigns
+* Use the Andoid-App to scan the QR-Codes: https://github.com/ligi/offlike_android_frontend
 
 Deployment on Heroku:
-- create an Heroku account
-- gem install heroku
-- heroku login
-- git remote add heroku git@heroku.com:offlike.git
+
+* create an Heroku account
+* execute in your shell:
+  gem install heroku
+  heroku login
+  git remote add heroku git@heroku.com:offlike.git
